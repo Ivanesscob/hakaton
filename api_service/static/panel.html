@@ -108,16 +108,13 @@
                 // Проверяем, открыто ли уже дерево продуктов для этого бизнеса
                 const isTreeVisible = productsContainer.style.display === 'block';
                 
-                // Скрываем все деревья продуктов
-                document.querySelectorAll('.products-tree').forEach(tree => {
-                    tree.style.display = 'none';
-                });
-                
-                // Если дерево было скрыто, показываем его, иначе оставляем скрытым
+                // Если дерево было скрыто, показываем его, иначе скрываем
                 if (!isTreeVisible) {
                     productsContainer.style.display = 'block';
                     // Показываем информацию о бизнесе
                     showBusinessInfo(business);
+                } else {
+                    productsContainer.style.display = 'none';
                 }
             });
             
