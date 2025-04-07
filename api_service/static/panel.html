@@ -9,14 +9,17 @@
 <body background-color="black">
 <div class="container">
     <div class="scene" id="scene-container">
-        <!-- Блоки будут добавлены динамически -->
+        <!-- Блоки будут добавлены динамически --><!-- Добавляем кнопку "+" вверху панели -->
+
     </div>
     <div class="list" id="list-container">
         <!-- Блоки списка будут добавлены динамически -->
     </div>
     <div class="info-panel" id="info-panel">Выберите бизнес для просмотра информации</div>
 </div>
-
+<div class="panel-header">
+    <a href="/add-data" class="add-button">+</a>
+</div>
 <script>
     // Функция для загрузки данных о компании и бизнесах
     function loadCompanyData() {
@@ -54,6 +57,15 @@
             listBox.addEventListener('click', () => showBusinessInfo(business));
             listContainer.appendChild(listBox);
         });
+
+        // Добавляем блок-кнопку для создания нового бизнеса
+        const addBusinessBox = document.createElement('div');
+        addBusinessBox.className = 'scene-box add-business';
+        addBusinessBox.innerHTML = '<div class="add-icon">+</div><div class="add-text">Добавить бизнес</div>';
+        addBusinessBox.addEventListener('click', () => {
+            alert('Функция добавления нового бизнеса будет доступна в следующем обновлении');
+        });
+        sceneContainer.appendChild(addBusinessBox);
     }
     
     // Функция для отображения информации о бизнесе
