@@ -10,10 +10,10 @@
 <body>
     <nav>
         <ul>
-            <li><a href="/">Главная</a></li>
-            <li><a href="/panel">Панель</a></li>
+            <li><a href="/" class="sans">Главная</a></li>
+            <li><a href="/panel" class="sans">Панель</a></li>
             <li class="auth-buttons">
-                <a href="/auth/login" class="login-btn">Войти</a>
+                <a href="/auth/login" class="sans login-btn">Войти</a>
             </li>
         </ul>
     </nav>
@@ -23,16 +23,20 @@
             <div class="auth-card">
                 <h2 class="auth-title">Вход в аккаунт</h2>
                 <p class="auth-subtitle">Добро пожаловать обратно! Пожалуйста, войдите в свой аккаунт.</p>
-                
+
                 <form class="auth-form">
                     <div class="form-group">
-                        <label for="company">Компания</label>
-                        <input type="text" id="company" name="company" placeholder="Введите название компании" required>
+                        <label for="company" class="sans">Компания</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">🏢</span>
+                            <input type="text" id="company" name="company" placeholder="Введите название компании" required>
+                        </div>
                     </div>
-                    
+
                     <div class="form-group">
-                        <label for="password">Пароль</label>
+                        <label for="password" class="sans">Пароль</label>
                         <div class="password-input">
+                            <span class="input-icon">🔒</span>
                             <input type="password" id="password" name="password" placeholder="Введите ваш пароль" required>
                             <button type="button" class="toggle-password" aria-label="Показать пароль">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -43,8 +47,11 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="auth-button">Войти</button>
+                    <button type="submit" class="auth-button sans">Войти</button>
                 </form>
+                <div class="auth-redirect sans">
+                    Нет аккаунта? <a href="/auth/register">Зарегистрируйтесь</a>
+                </div>
             </div>
         </div>
     </div>
@@ -54,9 +61,9 @@
             const passwordInput = document.getElementById('password');
             const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
             passwordInput.setAttribute('type', type);
-            
+
             // Изменение иконки
-            this.querySelector('svg').innerHTML = type === 'password' 
+            this.querySelector('svg').innerHTML = type === 'password'
                 ? '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>'
                 : '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>';
         });
@@ -64,7 +71,7 @@
         // Обработка отправки формы
         document.querySelector('.auth-form').addEventListener('submit', async function(e) {
             e.preventDefault();
-            
+
             const company = document.getElementById('company').value;
             const password = document.getElementById('password').value;
 
@@ -81,7 +88,7 @@
                 });
 
                 const data = await response.json();
-                
+
                 if (data.status === 'success') {
                     // Сохраняем данные в localStorage
                     localStorage.setItem('companyData', JSON.stringify(data));
@@ -96,5 +103,6 @@
             }
         });
     </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'92cd1f6ffcf569ec',t:'MTc0NDA2NjYzNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
 </body>
-</html> 
+</html>
