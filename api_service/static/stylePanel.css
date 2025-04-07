@@ -12,16 +12,6 @@ body {
     gap: 20px;
 }
 
-/* Стили для первого блока */
-.block1 {
-  grid-row: 1; /* Первый блок в первой строке */
-  grid-column: 1; /* Устанавливаем на первую колонку */
-
-    background-color: #254e58;
-            padding: 25px;
-            border-radius: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-}
 
 /* Стили для второго блока */
 .block2 {
@@ -32,6 +22,9 @@ body {
             padding: 25px;
             border-radius: 20px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    color:white;
+    font-size: 20px;
 }
 
 /* Стили для третьего блока */
@@ -43,4 +36,39 @@ body {
             padding: 25px;
             border-radius: 20px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    color:white;
+    font-size: 20px;
+}
+
+.scene{
+    grid-row: 1; /* Первый блок в первой строке */
+  grid-column: 1; /* Устанавливаем на первую колонку */
+
+    display: grid;
+  grid-template-columns: repeat(4, 25%); /* 4 столбца */
+  gap: 10px; /* расстояние между элементами */
+
+    background-color: #254e58;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    color:white;
+    font-size: 20px;
+}
+.scene-box{
+    width: 100%; /* элемент растягивается на всю ширину ячейки */
+    aspect-ratio: 1; /* высота будет равна ширине */
+    position: relative;
+    box-sizing: border-box; /* чтобы padding не увеличивал размер */
+
+
+    background-color: #102d31;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    color:white;
+    font-size: 20px;
 }
