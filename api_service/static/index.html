@@ -40,12 +40,20 @@
             </div>
             
             <div class="data-form">
-                <h1>Отправка данных</h1>
+                <h1>Создание бизнеса</h1>
                 <div class="form-group">
-                    <label for="data">Введите данные (JSON):</label>
-                    <textarea id="data" placeholder='{"key": "value"}'></textarea>
+                    <label for="business-type">Выберите тип бизнеса:</label>
+                    <select id="business-type" onchange="loadBusinessForm()">
+                        <option value="">Выберите тип бизнеса</option>
+                        <option value="kiosk">Ларек</option>
+                        <option value="restaurant">Ресторан</option>
+                        <option value="hotel">Гостиница</option>
+                        <option value="local_cuisine">Местная кухня</option>
+                        <option value="hotels">Отель</option>
+                        <option value="real_estate">Недвижимость</option>
+                    </select>
                 </div>
-                <button onclick="sendData()">Отправить</button>
+                <div id="business-form-container"></div>
                 <div id="response"></div>
             </div>
         </div>
@@ -71,6 +79,8 @@
         </ul>
     </div>
 
+    <script src="/static/forms.js"></script>
+    <script src="/static/business_forms.js"></script>
     <script>
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
@@ -82,12 +92,78 @@
             infoPanel.classList.toggle('active');
         }
         
-        async function sendData() {
-            const dataText = document.getElementById('data').value;
+        function loadBusinessForm() {
+            const businessType = document.getElementById('business-type').value;
+            const formContainer = document.getElementById('business-form-container');
+            
+            if (!businessType) {
+                formContainer.innerHTML = '';
+                return;
+            }
+            
+            let formHTML = '';
+            
+            switch (businessType) {
+                case 'kiosk':
+                    formHTML = generateKioskForm();
+                    break;
+                case 'restaurant':
+                    formHTML = generateRestaurantForm();
+                    break;
+                case 'hotel':
+                    formHTML = generateHotelForm();
+                    break;
+                case 'local_cuisine':
+                    formHTML = generateLocalCuisineForm();
+                    break;
+                case 'hotels':
+                    formHTML = generateHotelsForm();
+                    break;
+                case 'real_estate':
+                    formHTML = generateRealEstateForm();
+                    break;
+            }
+            
+            formHTML += `
+                <div class="form-group">
+                    <button onclick="sendBusinessData()">Отправить данные</button>
+                </div>
+            `;
+            
+            formContainer.innerHTML = formHTML;
+        }
+        
+        async function sendBusinessData() {
+            const businessType = document.getElementById('business-type').value;
+            const formContainer = document.getElementById('business-form-container');
             const responseDiv = document.getElementById('response');
             
+            if (!businessType) {
+                responseDiv.innerHTML = 'Пожалуйста, выберите тип бизнеса';
+                responseDiv.className = 'error';
+                return;
+            }
+            
+            // Собираем данные из формы
+            const formData = new FormData(formContainer.querySelector('form') || formContainer);
+            const data = {};
+            
+            for (const [key, value] of formData.entries()) {
+                if (key.endsWith('[]')) {
+                    const baseKey = key.slice(0, -2);
+                    if (!data[baseKey]) {
+                        data[baseKey] = [];
+                    }
+                    data[baseKey].push(value);
+                } else {
+                    data[key] = value;
+                }
+            }
+            
+            // Добавляем тип бизнеса
+            data.type = businessType;
+            
             try {
-                const data = JSON.parse(dataText);
                 const response = await fetch('/send-data/', {
                     method: 'POST',
                     headers: {
@@ -106,4 +182,4 @@
         }
     </script>
 </body>
-</html> 
+</html>

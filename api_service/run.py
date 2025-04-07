@@ -17,4 +17,4 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"Error starting server: {e}")
         input("Press Enter to exit...")
-        sys.exit(1) 
+        sys.exit(1)

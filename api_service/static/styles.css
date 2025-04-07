@@ -372,4 +372,215 @@ nav ul li a:hover {
     left: 0;
     color: #d90dc0;
     font-weight: bold;
+}
+
+/* Стили для форм бизнеса */
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.form-block {
+    flex: 1;
+    min-width: 300px;
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.form-block h2 {
+    margin-top: 0;
+    color: #333;
+    border-bottom: 2px solid #d90dc0;
+    padding-bottom: 0.5rem;
+}
+
+.form-block input, .form-block textarea, .form-block select {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.form-block button {
+    margin-top: 1rem;
+}
+
+.side-block {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.side-block-top, .side-block-bottom {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.side-block h3 {
+    margin-top: 0;
+    color: #333;
+    border-bottom: 2px solid #0d9cd9;
+    padding-bottom: 0.5rem;
+}
+
+.footer-text {
+    text-align: center;
+    margin-top: 2rem;
+    padding: 1rem;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.footer-text h2 {
+    margin: 0;
+    color: #333;
+}
+
+/* Стили для изображений */
+.business-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin: 1rem 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.image-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.image-option-container {
+    flex: 1;
+    min-width: 200px;
+    background: white;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Стили для списка бизнесов */
+.business-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.business-block {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+
+.business-block:hover {
+    transform: translateY(-5px);
+}
+
+.business-block h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+.business-block .description {
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+.business-block .type {
+    color: #d90dc0;
+    font-weight: bold;
+}
+
+.business-block .button {
+    display: inline-block;
+    background: #d90dc0;
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.business-block .button:hover {
+    background: #0d9cd9;
+}
+
+/* Стили для фильтра */
+.filter {
+    margin: 2rem 0;
+}
+
+.filter select {
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    min-width: 200px;
+}
+
+/* Стили для деталей бизнеса */
+.business-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+}
+
+.details-container {
+    margin: 2rem 0;
+}
+
+.detail-block {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.detail-block:last-child {
+    border-bottom: none;
+}
+
+.detail-block h4 {
+    margin-top: 0;
+    color: #333;
+}
+
+.detail-block ul {
+    padding-left: 1.5rem;
+}
+
+/* Стили для футера */
+.footer {
+    background: linear-gradient(90deg, #d90dc0 0%, #0d9cd9 100%);
+    color: white;
+    padding: 1.5rem;
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-logo {
+    font-size: 1.5rem;
+    font-weight: bold;
 } 
