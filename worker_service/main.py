@@ -4,6 +4,7 @@ import os
 from dotenv import load_dotenv
 from pymongo import MongoClient
 from datetime import datetime, UTC
+from bson import ObjectId
 
 load_dotenv()
 
@@ -15,11 +16,148 @@ RABBITMQ_QUEUE = os.getenv("RABBITMQ_QUEUE", "data_queue")
 MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017/")
 MONGO_DB = os.getenv("MONGO_DB", "business_db")
 MONGO_COLLECTION = os.getenv("MONGO_COLLECTION", "business")
+MONGO_COMPANIES_COLLECTION = os.getenv("MONGO_COMPANIES_COLLECTION", "companies")
 
 # Подключение к MongoDB
 client = MongoClient(MONGO_URI)
 db = client[MONGO_DB]
 collection = db[MONGO_COLLECTION]
+companies_collection = db[MONGO_COMPANIES_COLLECTION]
+
+def process_auth_message(ch, method, properties, body):
+    try:
+        print(f"Получен запрос на авторизацию: {body.decode()}")
+        
+        # Декодируем сообщение
+        auth_data = json.loads(body)
+        company_name = auth_data.get('company')
+        password = auth_data.get('password')
+        
+        if not company_name or not password:
+            raise ValueError("Отсутствует название компании или пароль")
+        
+        print(f"Поиск компании: {company_name}")
+        
+        # Проверяем подключение к MongoDB
+        try:
+            # Проверяем количество компаний в базе
+            total_companies = companies_collection.count_documents({})
+            print(f"Всего компаний в базе: {total_companies}")
+            
+            # Выводим все компании для отладки
+            all_companies = list(companies_collection.find())
+            print("Список всех компаний:")
+            for comp in all_companies:
+                print(f"Документ компании: {comp}")
+                try:
+                    company_data = comp.get('company', {})
+                    comp_name = company_data.get('name', 'Нет названия')
+                    print(f"- {comp_name}")
+                except Exception as e:
+                    print(f"Ошибка при чтении имени компании: {str(e)}")
+            
+            # Ищем компанию по правильной структуре
+            company = companies_collection.find_one({"company.name": company_name})
+            print(f"Результат поиска: {company}")
+            
+            if company:
+                print(f"Структура найденной компании: {company}")
+                company_data = company.get('company', {})
+                company_password = company_data.get('password')
+                
+                if company_password == password:
+                    print(f"Компания найдена: {company_data.get('name', 'Без названия')}")
+                    # Получаем все бизнесы компании
+                    company_id = company_data.get('_id')
+                    if company_id:
+                        businesses = list(collection.find({"company_id": company_id}))
+                        print(f"Найдено бизнесов: {len(businesses)}")
+                        
+                        # Преобразуем ObjectId в строки для JSON
+                        for business in businesses:
+                            business["_id"] = str(business["_id"])
+                            business["company_id"] = str(business["company_id"])
+                        
+                        response = {
+                            "status": "success",
+                            "company": {
+                                "id": str(company_id),
+                                "name": company_data.get('name', 'Без названия'),
+                                "email": company_data.get('email', ''),
+                                "created_at": company_data.get('created_at', '')
+                            },
+                            "businesses": businesses
+                        }
+                        
+                        # Подробное логирование ответа
+                        print("\n=== Данные для отправки ===")
+                        print(f"Статус: {response['status']}")
+                        print("\nДанные компании:")
+                        print(f"- ID: {response['company']['id']}")
+                        print(f"- Название: {response['company']['name']}")
+                        print(f"- Email: {response['company']['email']}")
+                        print(f"- Дата создания: {response['company']['created_at']}")
+                        print("\nБизнесы компании:")
+                        for business in response['businesses']:
+                            print(f"\nБизнес: {business['name']}")
+                            print(f"- ID: {business['_id']}")
+                            print(f"- Описание: {business['description']}")
+                            print("- Продукты:")
+                            for product in business['products']:
+                                print(f"  * {product}")
+                        print("========================\n")
+                    else:
+                        print("Ошибка: у компании отсутствует _id")
+                        response = {
+                            "status": "error",
+                            "message": "Ошибка данных компании"
+                        }
+                else:
+                    print(f"Неверный пароль для компании: {company_data.get('name', 'Без названия')}")
+                    response = {
+                        "status": "error",
+                        "message": "Компания не найдена или неверный пароль"
+                    }
+            else:
+                print(f"Компания не найдена: {company_name}")
+                response = {
+                    "status": "error",
+                    "message": "Компания не найдена или неверный пароль"
+                }
+        except Exception as e:
+            print(f"Ошибка при работе с MongoDB: {str(e)}")
+            raise
+        
+        print(f"Отправка ответа: {json.dumps(response)}")
+        
+        # Проверяем наличие очереди для ответа
+        if not properties.reply_to:
+            raise ValueError("Отсутствует очередь для ответа")
+        
+        # Отправляем ответ в очередь ответов
+        ch.basic_publish(
+            exchange='',
+            routing_key=properties.reply_to,
+            body=json.dumps(response)
+        )
+        
+        # Подтверждаем обработку сообщения
+        ch.basic_ack(delivery_tag=method.delivery_tag)
+        
+    except Exception as e:
+        print(f"Error processing auth message: {str(e)}")
+        # В случае ошибки, отправляем сообщение об ошибке
+        error_response = {
+            "status": "error",
+            "message": f"Внутренняя ошибка сервера: {str(e)}"
+        }
+        if properties.reply_to:
+            ch.basic_publish(
+                exchange='',
+                routing_key=properties.reply_to,
+                body=json.dumps(error_response)
+            )
+        ch.basic_ack(delivery_tag=method.delivery_tag)
 
 def process_message(ch, method, properties, body):
     try:
@@ -53,16 +191,23 @@ def main():
     connection = pika.BlockingConnection(parameters)
     channel = connection.channel()
     
-    # Объявляем очередь
+    # Объявляем очереди
     channel.queue_declare(queue=RABBITMQ_QUEUE, durable=True)
+    channel.queue_declare(queue="auth_queue", durable=True)
+    channel.queue_declare(queue="auth_response_queue", durable=True)
     
     # Устанавливаем prefetch count
     channel.basic_qos(prefetch_count=1)
     
-    # Начинаем прослушивать очередь
+    # Начинаем прослушивать очереди
     channel.basic_consume(
         queue=RABBITMQ_QUEUE,
         on_message_callback=process_message
+    )
+    
+    channel.basic_consume(
+        queue="auth_queue",
+        on_message_callback=process_auth_message
     )
     
     print(" [*] Waiting for messages. To exit press CTRL+C")

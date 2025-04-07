@@ -65,6 +65,39 @@ nav a:hover::after {
     width: 100%;
 }
 
+/* Стили для кнопок авторизации */
+.auth-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-left: auto;
+}
+
+.login-btn, .register-btn {
+    padding: 0.5rem 1.5rem;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.login-btn {
+    background-color: transparent;
+    border: 2px solid white;
+}
+
+.login-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.register-btn {
+    background-color: white;
+    color: #d90dc0;
+}
+
+.register-btn:hover {
+    background-color: #f0f0f0;
+    transform: translateY(-2px);
+}
+
 /* Основной контейнер */
 .main-container {
     max-width: 1200px;
