@@ -34,6 +34,10 @@ class DataItem(BaseModel):
 async def read_root():
     return FileResponse('static/index.html')
 
+@app.get("/panel")
+async def read_root():
+    return FileResponse('static/panel.html')
+
 @app.post("/send-data/")
 async def send_data(item: DataItem):
     try:

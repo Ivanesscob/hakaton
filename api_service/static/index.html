@@ -10,176 +10,18 @@
     <nav>
         <ul>
             <li><a href="/">Главная</a></li>
-            <li><a href="/docs">API Документация</a></li>
+            <li><a href="/panel">Панель</a></li>
         </ul>
     </nav>
 
     <div class="main-container">
-        <button class="toggle-sidebar" onclick="toggleSidebar()">Показать список бизнесов</button>
-        <button class="toggle-info-panel" onclick="toggleInfoPanel()">Показать информацию</button>
-        
         <div class="content">
             <div class="hero-section">
                 <h1 class="hero-title">Добро пожаловать в мир бизнеса!</h1>
                 <p class="hero-subtitle">Создавайте, управляйте и развивайте свой бизнес с нами!</p>
             </div>
-            
-            <div class="about-section">
-                <h2>О нашем сайте</h2>
-                <div class="about-content">
-                    <div class="about-text">
-                        <p>Наш сайт — это идеальная платформа для тех, кто хочет запустить или расширить свой бизнес. Мы предоставляем удобные инструменты для создания карточек компаний, генерации изображений с помощью ИИ и управления вашим бизнесом в одном месте.</p>
-                        <h3>Почему выбирают нас?</h3>
-                        <ul>
-                            <li><strong>Простота использования:</strong> Интуитивный интерфейс, который подойдёт даже новичкам.</li>
-                            <li><strong>Генерация изображений:</strong> Создавайте уникальные картинки для вашего бизнеса с помощью ИИ.</li>
-                            <li><strong>Гибкие подписки:</strong> Выбирайте план, который подходит именно вам.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="data-form">
-                <h1>Создание бизнеса</h1>
-                <div class="form-group">
-                    <label for="business-type">Выберите тип бизнеса:</label>
-                    <select id="business-type" onchange="loadBusinessForm()">
-                        <option value="">Выберите тип бизнеса</option>
-                        <option value="kiosk">Ларек</option>
-                        <option value="restaurant">Ресторан</option>
-                        <option value="hotel">Гостиница</option>
-                        <option value="local_cuisine">Местная кухня</option>
-                        <option value="hotels">Отель</option>
-                        <option value="real_estate">Недвижимость</option>
-                    </select>
-                </div>
-                <div id="business-form-container"></div>
-                <div id="response"></div>
-            </div>
         </div>
-    </div>
-    
-    <div class="sidebar" id="sidebar">
-        <h3>Список бизнесов</h3>
-        <div class="sidebar-item">
-            <a href="#">Бизнес 1</a>
-        </div>
-        <div class="sidebar-item">
-            <a href="#">Бизнес 2</a>
-        </div>
-    </div>
-    
-    <div class="info-panel" id="info-panel">
-        <h3>Информация о подписке</h3>
-        <p>Выберите подписку, чтобы получить доступ к дополнительным функциям:</p>
-        <ul>
-            <li><strong>Базовая:</strong> 500 ₽/мес</li>
-            <li><strong>VIP:</strong> 1500 ₽/мес</li>
-            <li><strong>Премиум:</strong> 3000 ₽/мес</li>
-        </ul>
     </div>
 
-    <script src="/static/forms.js"></script>
-    <script src="/static/business_forms.js"></script>
-    <script>
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('active');
-        }
-        
-        function toggleInfoPanel() {
-            const infoPanel = document.getElementById('info-panel');
-            infoPanel.classList.toggle('active');
-        }
-        
-        function loadBusinessForm() {
-            const businessType = document.getElementById('business-type').value;
-            const formContainer = document.getElementById('business-form-container');
-            
-            if (!businessType) {
-                formContainer.innerHTML = '';
-                return;
-            }
-            
-            let formHTML = '';
-            
-            switch (businessType) {
-                case 'kiosk':
-                    formHTML = generateKioskForm();
-                    break;
-                case 'restaurant':
-                    formHTML = generateRestaurantForm();
-                    break;
-                case 'hotel':
-                    formHTML = generateHotelForm();
-                    break;
-                case 'local_cuisine':
-                    formHTML = generateLocalCuisineForm();
-                    break;
-                case 'hotels':
-                    formHTML = generateHotelsForm();
-                    break;
-                case 'real_estate':
-                    formHTML = generateRealEstateForm();
-                    break;
-            }
-            
-            formHTML += `
-                <div class="form-group">
-                    <button onclick="sendBusinessData()">Отправить данные</button>
-                </div>
-            `;
-            
-            formContainer.innerHTML = formHTML;
-        }
-        
-        async function sendBusinessData() {
-            const businessType = document.getElementById('business-type').value;
-            const formContainer = document.getElementById('business-form-container');
-            const responseDiv = document.getElementById('response');
-            
-            if (!businessType) {
-                responseDiv.innerHTML = 'Пожалуйста, выберите тип бизнеса';
-                responseDiv.className = 'error';
-                return;
-            }
-            
-            // Собираем данные из формы
-            const formData = new FormData(formContainer.querySelector('form') || formContainer);
-            const data = {};
-            
-            for (const [key, value] of formData.entries()) {
-                if (key.endsWith('[]')) {
-                    const baseKey = key.slice(0, -2);
-                    if (!data[baseKey]) {
-                        data[baseKey] = [];
-                    }
-                    data[baseKey].push(value);
-                } else {
-                    data[key] = value;
-                }
-            }
-            
-            // Добавляем тип бизнеса
-            data.type = businessType;
-            
-            try {
-                const response = await fetch('/send-data/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ data: data })
-                });
-                
-                const result = await response.json();
-                responseDiv.innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
-                responseDiv.className = 'success';
-            } catch (error) {
-                responseDiv.innerHTML = `Ошибка: ${error.message}`;
-                responseDiv.className = 'error';
-            }
-        }
-    </script>
 </body>
 </html>
