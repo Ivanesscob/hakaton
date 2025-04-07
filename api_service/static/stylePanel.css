@@ -20,6 +20,7 @@ body {
 overflow: auto;
     display: grid;
   gap: 10px; /* расстояние между элементами */
+  grid-template-rows: repeat(auto-fill, 20%);
 
     background-color: #254e58;
             padding: 25px;
@@ -43,7 +44,12 @@ overflow: auto;
   font-family: "Comic Sans MS", cursive, sans-serif;
   color: white;
   font-size: 20px;
+
+
 }
+.list-box:hover {
+      transform: scale(1.1); /* Увеличение на 20% */
+    }
 
 /* Стили для третьего блока */
 .info-panel {
@@ -92,4 +98,7 @@ overflow: auto;
   font-family: "Comic Sans MS", cursive, sans-serif;
   color: white;
   font-size: 20px;
+}
+.scene-box:hover{
+  transform: scale(1.1);
 }
