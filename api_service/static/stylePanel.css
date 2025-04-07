@@ -102,3 +102,28 @@ overflow: auto;
 .scene-box:hover{
   transform: scale(1.1);
 }
+.panel-header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem;
+}
+
+.add-button {
+    display: inline-block;
+    background: linear-gradient(90deg, #d90dc0 0%, #0d9cd9 100%);
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 50%;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.add-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
