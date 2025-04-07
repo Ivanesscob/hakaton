@@ -13,8 +13,8 @@ RABBITMQ_QUEUE = os.getenv("RABBITMQ_QUEUE", "data_queue")
 
 # Конфигурация MongoDB
 MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017/")
-MONGO_DB = os.getenv("MONGO_DB", "your_database")
-MONGO_COLLECTION = os.getenv("MONGO_COLLECTION", "data_records")
+MONGO_DB = os.getenv("MONGO_DB", "business_db")
+MONGO_COLLECTION = os.getenv("MONGO_COLLECTION", "business")
 
 # Подключение к MongoDB
 client = MongoClient(MONGO_URI)
