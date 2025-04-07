@@ -26,8 +26,6 @@ companies_collection = db[MONGO_COMPANIES_COLLECTION]
 
 def process_auth_message(ch, method, properties, body):
     try:
-        print(f"Получен запрос на авторизацию: {body.decode()}")
-        
         # Декодируем сообщение
         auth_data = json.loads(body)
         company_name = auth_data.get('company')
@@ -35,8 +33,6 @@ def process_auth_message(ch, method, properties, body):
         
         if not company_name or not password:
             raise ValueError("Отсутствует название компании или пароль")
-        
-        print(f"Поиск компании: {company_name}")
         
         # Проверяем подключение к MongoDB
         try:
@@ -48,86 +44,41 @@ def process_auth_message(ch, method, properties, body):
             all_companies = list(companies_collection.find())
             print("Список всех компаний:")
             for comp in all_companies:
-                print(f"Документ компании: {comp}")
-                try:
-                    company_data = comp.get('company', {})
-                    comp_name = company_data.get('name', 'Нет названия')
-                    print(f"- {comp_name}")
-                except Exception as e:
-                    print(f"Ошибка при чтении имени компании: {str(e)}")
+                print(f"Документ компании: {json.dumps(comp, default=str, indent=2, ensure_ascii=False)}")
             
             # Ищем компанию по правильной структуре
             company = companies_collection.find_one({"company.name": company_name})
-            print(f"Результат поиска: {company}")
+            print(f"Результат поиска компании: {json.dumps(company, default=str, indent=2, ensure_ascii=False) if company else 'Не найдено'}")
             
             if company:
-                print(f"Структура найденной компании: {company}")
                 company_data = company.get('company', {})
                 company_password = company_data.get('password')
                 
                 if company_password == password:
-                    print(f"Компания найдена: {company_data.get('name', 'Без названия')}")
                     # Получаем все бизнесы компании
                     company_id = company_data.get('_id')
                     if company_id:
-                        print(f"Ищем бизнесы для компании с ID: {company_id}")
-                        
-                        # Проверяем все бизнесы в коллекции
-                        all_businesses = list(collection.find())
-                        print(f"Всего бизнесов в коллекции: {len(all_businesses)}")
-                        print("Список всех бизнесов:")
-                        for bus in all_businesses:
-                            print(f"- ID: {bus.get('_id')}, company_id: {bus.get('company_id')}, name: {bus.get('name')}")
-                        
-                        # Ищем бизнесы по ID компании
-                        businesses = list(collection.find({"company_id": str(company_id)}))
-                        print(f"Найдено бизнесов для компании: {len(businesses)}")
-                        
-                        # Если бизнесы не найдены, попробуем создать тестовые данные
-                        if not businesses:
-                            print("Бизнесы не найдены, создаем тестовые данные")
-                            # Создаем тестовый бизнес
-                            test_business = {
-                                "_id": ObjectId(),
-                                "company_id": str(company_id),
-                                "name": "Бизнес 1",
-                                "description": "Описание первого бизнеса",
-                                "created_at": datetime.now(UTC).isoformat(),
-                                "products": [
-                                    {
-                                        "name": "Продукт 1",
-                                        "description": "Описание продукта 1",
-                                        "price": 100,
-                                        "created_at": datetime.now(UTC).isoformat()
-                                    },
-                                    {
-                                        "name": "Продукт 2",
-                                        "description": "Описание продукта 2",
-                                        "price": 200,
-                                        "created_at": datetime.now(UTC).isoformat()
-                                    }
-                                ]
-                            }
-                            # Вставляем тестовый бизнес в коллекцию
-                            collection.insert_one(test_business)
-                            businesses = [test_business]
-                            print("Тестовый бизнес создан")
+                        # Получаем бизнесы из массива businesses внутри документа компании
+                        businesses = company.get('businesses', [])
+                        print(f"Найдено бизнесов в компании: {len(businesses)}")
+                        print("Список найденных бизнесов:")
+                        for bus in businesses:
+                            print(f"Бизнес: {json.dumps(bus, default=str, indent=2, ensure_ascii=False)}")
                         
                         # Преобразуем ObjectId в строки для JSON и добавляем недостающие поля
+                        formatted_businesses = []
                         for business in businesses:
-                            business["_id"] = str(business["_id"])
-                            business["company_id"] = str(business["company_id"])
-                            
-                            # Убедимся, что у бизнеса есть все необходимые поля
-                            if "products" not in business:
-                                business["products"] = []
-                            if "description" not in business:
-                                business["description"] = ""
-                            if "created_at" not in business:
-                                business["created_at"] = datetime.now(UTC).isoformat()
+                            formatted_business = {
+                                "_id": str(business.get("_id", ObjectId())),
+                                "company_id": str(company_id),
+                                "name": business.get("name", "Без названия"),
+                                "description": business.get("description", ""),
+                                "created_at": business.get("created_at", datetime.now(UTC).isoformat()),
+                                "products": []
+                            }
                             
                             # Преобразуем продукты в правильный формат
-                            if isinstance(business["products"], list):
+                            if "products" in business and isinstance(business["products"], list):
                                 formatted_products = []
                                 for product in business["products"]:
                                     if isinstance(product, dict):
@@ -137,7 +88,9 @@ def process_auth_message(ch, method, properties, body):
                                             "price": product.get("price", 0),
                                             "created_at": product.get("created_at", datetime.now(UTC).isoformat())
                                         })
-                                business["products"] = formatted_products
+                                formatted_business["products"] = formatted_products
+                            
+                            formatted_businesses.append(formatted_business)
                         
                         response = {
                             "status": "success",
@@ -147,48 +100,23 @@ def process_auth_message(ch, method, properties, body):
                                 "email": company_data.get('email', ''),
                                 "created_at": company_data.get('created_at', '')
                             },
-                            "businesses": businesses
+                            "businesses": formatted_businesses
                         }
                         
-                        # Подробное логирование ответа
-                        print("\n=== Данные для отправки ===")
-                        print(f"Статус: {response['status']}")
-                        print("\nДанные компании:")
-                        print(f"- ID: {response['company']['id']}")
-                        print(f"- Название: {response['company']['name']}")
-                        print(f"- Email: {response['company']['email']}")
-                        print(f"- Дата создания: {response['company']['created_at']}")
-                        print("\nБизнесы компании:")
-                        for business in response['businesses']:
-                            print(f"\nБизнес: {business['name']}")
-                            print(f"- ID: {business['_id']}")
-                            print(f"- Описание: {business['description']}")
-                            print(f"- Дата создания: {business['created_at']}")
-                            print("- Продукты:")
-                            for product in business['products']:
-                                print(f"  * {product['name']}")
-                                print(f"    - Описание: {product['description']}")
-                                print(f"    - Цена: {product['price']}")
-                                print(f"    - Дата создания: {product['created_at']}")
-                        print("========================\n")
-                        
-                        # Выводим полный JSON для проверки
+                        # Выводим полный JSON ответа
                         print("Полный JSON ответа:")
                         print(json.dumps(response, indent=2, ensure_ascii=False))
                     else:
-                        print("Ошибка: у компании отсутствует _id")
                         response = {
                             "status": "error",
                             "message": "Ошибка данных компании"
                         }
                 else:
-                    print(f"Неверный пароль для компании: {company_data.get('name', 'Без названия')}")
                     response = {
                         "status": "error",
                         "message": "Компания не найдена или неверный пароль"
                     }
             else:
-                print(f"Компания не найдена: {company_name}")
                 response = {
                     "status": "error",
                     "message": "Компания не найдена или неверный пароль"
@@ -196,8 +124,6 @@ def process_auth_message(ch, method, properties, body):
         except Exception as e:
             print(f"Ошибка при работе с MongoDB: {str(e)}")
             raise
-        
-        print(f"Отправка ответа: {json.dumps(response)}")
         
         # Проверяем наличие очереди для ответа
         if not properties.reply_to:
@@ -239,13 +165,10 @@ def process_message(ch, method, properties, body):
         # Сохраняем данные в MongoDB
         result = collection.insert_one(data)
         
-        print(f"Successfully processed and saved data with ID: {result.inserted_id}")
-        
         # Подтверждаем обработку сообщения
         ch.basic_ack(delivery_tag=method.delivery_tag)
         
     except Exception as e:
-        print(f"Error processing message: {str(e)}")
         # В случае ошибки, отклоняем сообщение и возвращаем его в очередь
         ch.basic_nack(delivery_tag=method.delivery_tag, requeue=True)
 
@@ -279,7 +202,6 @@ def main():
         on_message_callback=process_auth_message
     )
     
-    print(" [*] Waiting for messages. To exit press CTRL+C")
     channel.start_consuming()
 
 if __name__ == "__main__":

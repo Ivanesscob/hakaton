@@ -8,32 +8,76 @@
 </head>
 <body background-color="black">
 <div class="container">
-    <div class="scene">
-        <div class="scene-box">Блок 1</div>
-        <div class="scene-box">Блок 2</div>
-        <div class="scene-box">Блок 3</div>
-        <div class="scene-box">Блок 4</div>
-        <div class="scene-box">Блок 5</div>
-        <div class="scene-box">Блок 6</div>
-        <div class="scene-box">Блок 7</div>
-        <div class="scene-box">Блок 8</div>
-        <div class="scene-box">Блок 9</div>
-        <div class="scene-box">Блок 10</div>
-        <div></div>
+    <div class="scene" id="scene-container">
+        <!-- Блоки будут добавлены динамически -->
     </div>
-    <div class="list">
-        <div class="list-box">Блок 1</div>
-        <div class="list-box">Блок 2</div>
-        <div class="list-box">Блок 3</div>
-        <div class="list-box">Блок 4</div>
-        <div class="list-box">Блок 5</div>
-        <div class="list-box">Блок 6</div>
-        <div class="list-box">Блок 7</div>
-        <div class="list-box">Блок 8</div>
-        <div class="list-box">Блок 9</div>
-        <div class="list-box">Блок 10</div>
+    <div class="list" id="list-container">
+        <!-- Блоки списка будут добавлены динамически -->
     </div>
-    <div class="info-panel">Блок 3</div>
+    <div class="info-panel" id="info-panel">Выберите бизнес для просмотра информации</div>
 </div>
+
+<script>
+    // Функция для загрузки данных о компании и бизнесах
+    function loadCompanyData() {
+        const companyData = JSON.parse(localStorage.getItem('companyData'));
+        
+        if (!companyData || companyData.status !== 'success') {
+            console.error('Данные компании не найдены или неверный формат');
+            window.location.href = '/auth/login';
+            return;
+        }
+        
+        const businesses = companyData.businesses || [];
+        const sceneContainer = document.getElementById('scene-container');
+        const listContainer = document.getElementById('list-container');
+        
+        // Очищаем контейнеры
+        sceneContainer.innerHTML = '';
+        listContainer.innerHTML = '';
+        
+        // Создаем блоки для каждого бизнеса
+        businesses.forEach((business, index) => {
+            // Создаем блок в сцене
+            const sceneBox = document.createElement('div');
+            sceneBox.className = 'scene-box';
+            sceneBox.textContent = business.name;
+            sceneBox.dataset.businessId = business._id;
+            sceneBox.addEventListener('click', () => showBusinessInfo(business));
+            sceneContainer.appendChild(sceneBox);
+            
+            // Создаем блок в списке
+            const listBox = document.createElement('div');
+            listBox.className = 'list-box';
+            listBox.textContent = business.name;
+            listBox.dataset.businessId = business._id;
+            listBox.addEventListener('click', () => showBusinessInfo(business));
+            listContainer.appendChild(listBox);
+        });
+    }
+    
+    // Функция для отображения информации о бизнесе
+    function showBusinessInfo(business) {
+        const infoPanel = document.getElementById('info-panel');
+        
+        let productsHtml = '';
+        if (business.products && business.products.length > 0) {
+            productsHtml = '<h3>Продукты:</h3><ul>';
+            business.products.forEach(product => {
+                productsHtml += `<li>${product.name} - ${product.price} руб.</li>`;
+            });
+            productsHtml += '</ul>';
+        }
+        
+        infoPanel.innerHTML = `
+            <h2>${business.name}</h2>
+            <p>${business.description}</p>
+            ${productsHtml}
+        `;
+    }
+    
+    // Загружаем данные при загрузке страницы
+    document.addEventListener('DOMContentLoaded', loadCompanyData);
+</script>
 </body>
 </html>

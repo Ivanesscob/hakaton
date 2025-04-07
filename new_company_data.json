@@ -1,0 +1,93 @@
+{
+  "_id": "67f3f805fa3db3c5abcedb96",
+  "company": {
+    "_id": "65f1a2b3c4d5e6f7a8b9c0d4",
+    "name": "Новая Компания",
+    "password": "newpass123",
+    "email": "new@company.com",
+    "created_at": "2024-03-14T10:00:00Z"
+  },
+  "businesses": [
+    {
+      "_id": "65f1a2b3c4d5e6f7a8b9c0d5",
+      "company_id": "65f1a2b3c4d5e6f7a8b9c0d4",
+      "name": "Бизнес А",
+      "description": "Описание бизнеса А",
+      "products": [
+        {
+          "id": "prod_a1",
+          "name": "Продукт А1",
+          "price": 1500,
+          "description": "Описание продукта А1"
+        },
+        {
+          "id": "prod_a2",
+          "name": "Продукт А2",
+          "price": 2500,
+          "description": "Описание продукта А2"
+        },
+        {
+          "id": "prod_a3",
+          "name": "Продукт А3",
+          "price": 3500,
+          "description": "Описание продукта А3"
+        }
+      ],
+      "created_at": "2024-03-14T10:00:00Z"
+    },
+    {
+      "_id": "65f1a2b3c4d5e6f7a8b9c0d6",
+      "company_id": "65f1a2b3c4d5e6f7a8b9c0d4",
+      "name": "Бизнес Б",
+      "description": "Описание бизнеса Б",
+      "products": [
+        {
+          "id": "prod_b1",
+          "name": "Продукт Б1",
+          "price": 4500,
+          "description": "Описание продукта Б1"
+        },
+        {
+          "id": "prod_b2",
+          "name": "Продукт Б2",
+          "price": 5500,
+          "description": "Описание продукта Б2"
+        }
+      ],
+      "created_at": "2024-03-14T10:00:00Z"
+    },
+    {
+      "_id": "65f1a2b3c4d5e6f7a8b9c0d7",
+      "company_id": "65f1a2b3c4d5e6f7a8b9c0d4",
+      "name": "Бизнес В",
+      "description": "Описание бизнеса В",
+      "products": [
+        {
+          "id": "prod_v1",
+          "name": "Продукт В1",
+          "price": 6500,
+          "description": "Описание продукта В1"
+        },
+        {
+          "id": "prod_v2",
+          "name": "Продукт В2",
+          "price": 7500,
+          "description": "Описание продукта В2"
+        },
+        {
+          "id": "prod_v3",
+          "name": "Продукт В3",
+          "price": 8500,
+          "description": "Описание продукта В3"
+        },
+        {
+          "id": "prod_v4",
+          "name": "Продукт В4",
+          "price": 9500,
+          "description": "Описание продукта В4"
+        }
+      ],
+      "created_at": "2024-03-14T10:00:00Z"
+    }
+  ]
+} 
