@@ -1,0 +1,46 @@
+
+body {
+  background-color: #102d31; /* Устанавливаем чёрный фон */
+}
+/* Основные стили для контейнера */
+.container {
+  display: grid;
+  grid-template-columns: 3fr 1fr; /* Два блока в первой строке, третий в отдельной строке */
+    grid-template-rows: 3fr 1fr;
+  height: 100vh; /* Высота контейнера на весь экран */
+  width: 100%;
+    gap: 20px;
+}
+
+/* Стили для первого блока */
+.block1 {
+  grid-row: 1; /* Первый блок в первой строке */
+  grid-column: 1; /* Устанавливаем на первую колонку */
+
+    background-color: #254e58;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* Стили для второго блока */
+.block2 {
+  grid-row: 1; /* Второй блок в первой строке */
+  grid-column: 2; /* Устанавливаем на вторую колонку */
+
+    background-color: #254e58;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* Стили для третьего блока */
+.block3 {
+  grid-row: 2; /* Третий блок в отдельной строке */
+  grid-column: 1 / -1; /* Занимает всю ширину */
+
+    background-color: #254e58;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
