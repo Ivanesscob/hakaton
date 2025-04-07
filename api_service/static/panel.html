@@ -7,6 +7,17 @@
     <link rel="stylesheet" href="/static/stylePanel.css">
 </head>
 <body background-color="black">
+<div class="sidebar-toggle" id="sidebar-toggle">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+</div>
+
+<div class="sidebar" id="sidebar">
+    <h3>Меню</h3>
+    <button class="logout-btn" id="logout-btn">Выйти</button>
+</div>
+
 <div class="container">
     <div class="scene" id="scene-container">
         <!-- Блоки будут добавлены динамически -->
@@ -18,8 +29,25 @@
 </div>
 
 <script>
+    // Функция для проверки авторизации
+    function checkAuth() {
+        const companyData = localStorage.getItem('companyData');
+        return companyData !== null;
+    }
+    
+    // Функция для выхода из системы
+    function logout() {
+        localStorage.removeItem('companyData');
+        window.location.href = '/auth/login';
+    }
+    
     // Функция для загрузки данных о компании и бизнесах
     function loadCompanyData() {
+        if (!checkAuth()) {
+            window.location.href = '/auth/login';
+            return;
+        }
+        
         const companyData = JSON.parse(localStorage.getItem('companyData'));
         
         if (!companyData || companyData.status !== 'success') {
@@ -85,8 +113,31 @@
         `;
     }
     
+    // Функция для переключения боковой панели
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        
+        sidebar.classList.toggle('open');
+        sidebarToggle.classList.toggle('open');
+        
+        // Изменяем направление стрелки
+        const svg = sidebarToggle.querySelector('svg');
+        if (sidebar.classList.contains('open')) {
+            svg.innerHTML = '<polyline points="15 18 9 12 15 6"></polyline>';
+        } else {
+            svg.innerHTML = '<polyline points="9 18 15 12 9 6"></polyline>';
+        }
+    }
+    
     // Загружаем данные при загрузке страницы
-    document.addEventListener('DOMContentLoaded', loadCompanyData);
+    document.addEventListener('DOMContentLoaded', () => {
+        loadCompanyData();
+        
+        // Добавляем обработчики событий для боковой панели
+        document.getElementById('sidebar-toggle').addEventListener('click', toggleSidebar);
+        document.getElementById('logout-btn').addEventListener('click', logout);
+    });
 </script>
 </body>
 </html>
