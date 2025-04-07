@@ -3,14 +3,14 @@ body {
     font-family: 'Segoe UI', Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background: linear-gradient(135deg, #f5e1fd 0%, #e1f5fd 100%);
+    background-color: #102d31;
     min-height: 100vh;
-    color: #333;
+    color: white;
+    font-family: "Comic Sans MS", cursive, sans-serif;
 }
 
 /* Навигационное меню */
 nav {
-    background: linear-gradient(90deg, #d90dc0 0%, #0d9cd9 100%);
     padding: 1rem;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     display: flex;
@@ -114,13 +114,15 @@ nav a:hover::after {
 
 .hero-title {
     font-size: 2.5rem;
-    color: #333;
+    color: white;
+    font-family: "Comic Sans MS", cursive, sans-serif;
     margin-bottom: 1rem;
 }
 
 .hero-subtitle {
     font-size: 1.2rem;
-    color: #666;
+    color: white;
+    font-family: "Comic Sans MS", cursive, sans-serif;
 }
 
 /* Секция подписок */
@@ -132,7 +134,8 @@ nav a:hover::after {
 .section-title {
     font-size: 2rem;
     margin-bottom: 3rem;
-    color: #333;
+    color: white;
+    font-family: "Comic Sans MS", cursive, sans-serif;
     position: relative;
     display: inline-block;
 }
@@ -145,7 +148,7 @@ nav a:hover::after {
     transform: translateX(-50%);
     width: 80px;
     height: 3px;
-    background: linear-gradient(90deg, #d90dc0 0%, #0d9cd9 100%);
+    background: #102d31;
     border-radius: 3px;
 }
 
@@ -179,8 +182,9 @@ nav a:hover::after {
     position: absolute;
     top: 0;
     right: 0;
-    background: linear-gradient(90deg, #d90dc0 0%, #0d9cd9 100%);
+    background: #102d31;
     color: white;
+    font-family: "Comic Sans MS", cursive, sans-serif;
     padding: 0.5rem 1rem;
     font-size: 0.9rem;
     border-bottom-left-radius: 15px;
@@ -191,23 +195,28 @@ nav a:hover::after {
     margin-bottom: 2rem;
     padding-bottom: 1rem;
     border-bottom: 1px solid #eee;
+    color: white;
+    font-family: "Comic Sans MS", cursive, sans-serif;
 }
 
 .plan-header h3 {
     font-size: 1.8rem;
     margin-bottom: 1rem;
-    color: #333;
+    color: white;
+    font-family: "Comic Sans MS", cursive, sans-serif;
 }
 
 .price {
     font-size: 2.5rem;
     font-weight: bold;
-    color: #333;
+    color: white;
+    font-family: "Comic Sans MS", cursive, sans-serif;
 }
 
 .price span {
     font-size: 1rem;
-    color: #666;
+    color: white;
+    font-family: "Comic Sans MS", cursive, sans-serif;
     font-weight: normal;
 }
 
@@ -225,7 +234,8 @@ nav a:hover::after {
 
 .plan-features li {
     padding: 0.5rem 0;
-    color: #666;
+    color: white;
+    font-family: "Comic Sans MS", cursive, sans-serif;
     position: relative;
     padding-left: 1.5rem;
 }
@@ -234,13 +244,14 @@ nav a:hover::after {
     content: '✓';
     position: absolute;
     left: 0;
-    color: #d90dc0;
+    color: white;
     font-weight: bold;
 }
 
 .plan-button {
-    background: linear-gradient(90deg, #d90dc0 0%, #0d9cd9 100%);
+    background: #102d31;
     color: white;
+    font-family: "Comic Sans MS", cursive, sans-serif;
     border: none;
     padding: 1rem 2rem;
     border-radius: 50px;
@@ -263,11 +274,11 @@ nav a:hover::after {
 
 /* Стили для разных планов */
 .basic-plan {
-    background: white;
+    background-color: #254e58;
 }
 
 .premium-plan {
-    background: white;
+    background-color: #254e58;
     transform: scale(1.05);
     z-index: 1;
 }
@@ -277,7 +288,7 @@ nav a:hover::after {
 }
 
 .vip-plan {
-    background: white;
+    background-color: #254e58;
 }
 
 /* Адаптивность */
@@ -291,9 +302,13 @@ nav a:hover::after {
     }
     .hero-title {
         font-size: 2rem;
+        color: white;
+    font-family: "Comic Sans MS", cursive, sans-serif;
     }
     .hero-subtitle {
         font-size: 1.2rem;
+        color: white;
+    font-family: "Comic Sans MS", cursive, sans-serif;
     }
     
     .subscription-plans {
@@ -313,4 +328,9 @@ nav a:hover::after {
     .premium-plan:hover {
         transform: translateY(-10px);
     }
+}
+
+.sans{
+    color: white;
+    font-family: "Comic Sans MS", cursive, sans-serif;
 }
