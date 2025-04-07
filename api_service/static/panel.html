@@ -54,6 +54,15 @@
             listBox.addEventListener('click', () => showBusinessInfo(business));
             listContainer.appendChild(listBox);
         });
+        
+        // Добавляем блок-кнопку для создания нового бизнеса
+        const addBusinessBox = document.createElement('div');
+        addBusinessBox.className = 'scene-box add-business';
+        addBusinessBox.innerHTML = '<div class="add-icon">+</div><div class="add-text">Добавить бизнес</div>';
+        addBusinessBox.addEventListener('click', () => {
+            alert('Функция добавления нового бизнеса будет доступна в следующем обновлении');
+        });
+        sceneContainer.appendChild(addBusinessBox);
     }
     
     // Функция для отображения информации о бизнесе
