@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Сервис</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">Главная</a></li>
+            <li><a href="/docs">API Документация</a></li>
+        </ul>
+    </nav>
+
+    <div class="main-container">
+        <button class="toggle-sidebar" onclick="toggleSidebar()">Показать список бизнесов</button>
+        <button class="toggle-info-panel" onclick="toggleInfoPanel()">Показать информацию</button>
+        
+        <div class="content">
+            <div class="hero-section">
+                <h1 class="hero-title">Добро пожаловать в мир бизнеса!</h1>
+                <p class="hero-subtitle">Создавайте, управляйте и развивайте свой бизнес с нами!</p>
+            </div>
+            
+            <div class="about-section">
+                <h2>О нашем сайте</h2>
+                <div class="about-content">
+                    <div class="about-text">
+                        <p>Наш сайт — это идеальная платформа для тех, кто хочет запустить или расширить свой бизнес. Мы предоставляем удобные инструменты для создания карточек компаний, генерации изображений с помощью ИИ и управления вашим бизнесом в одном месте.</p>
+                        <h3>Почему выбирают нас?</h3>
+                        <ul>
+                            <li><strong>Простота использования:</strong> Интуитивный интерфейс, который подойдёт даже новичкам.</li>
+                            <li><strong>Генерация изображений:</strong> Создавайте уникальные картинки для вашего бизнеса с помощью ИИ.</li>
+                            <li><strong>Гибкие подписки:</strong> Выбирайте план, который подходит именно вам.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="data-form">
+                <h1>Отправка данных</h1>
+                <div class="form-group">
+                    <label for="data">Введите данные (JSON):</label>
+                    <textarea id="data" placeholder='{"key": "value"}'></textarea>
+                </div>
+                <button onclick="sendData()">Отправить</button>
+                <div id="response"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="sidebar" id="sidebar">
+        <h3>Список бизнесов</h3>
+        <div class="sidebar-item">
+            <a href="#">Бизнес 1</a>
+        </div>
+        <div class="sidebar-item">
+            <a href="#">Бизнес 2</a>
+        </div>
+    </div>
+    
+    <div class="info-panel" id="info-panel">
+        <h3>Информация о подписке</h3>
+        <p>Выберите подписку, чтобы получить доступ к дополнительным функциям:</p>
+        <ul>
+            <li><strong>Базовая:</strong> 500 ₽/мес</li>
+            <li><strong>VIP:</strong> 1500 ₽/мес</li>
+            <li><strong>Премиум:</strong> 3000 ₽/мес</li>
+        </ul>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('active');
+        }
+        
+        function toggleInfoPanel() {
+            const infoPanel = document.getElementById('info-panel');
+            infoPanel.classList.toggle('active');
+        }
+        
+        async function sendData() {
+            const dataText = document.getElementById('data').value;
+            const responseDiv = document.getElementById('response');
+            
+            try {
+                const data = JSON.parse(dataText);
+                const response = await fetch('/send-data/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ data: data })
+                });
+                
+                const result = await response.json();
+                responseDiv.innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+                responseDiv.className = 'success';
+            } catch (error) {
+                responseDiv.innerHTML = `Ошибка: ${error.message}`;
+                responseDiv.className = 'error';
+            }
+        }
+    </script>
+</body>
+</html> 
