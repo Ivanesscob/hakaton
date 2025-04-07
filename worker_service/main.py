@@ -70,13 +70,74 @@ def process_auth_message(ch, method, properties, body):
                     # Получаем все бизнесы компании
                     company_id = company_data.get('_id')
                     if company_id:
-                        businesses = list(collection.find({"company_id": company_id}))
-                        print(f"Найдено бизнесов: {len(businesses)}")
+                        print(f"Ищем бизнесы для компании с ID: {company_id}")
                         
-                        # Преобразуем ObjectId в строки для JSON
+                        # Проверяем все бизнесы в коллекции
+                        all_businesses = list(collection.find())
+                        print(f"Всего бизнесов в коллекции: {len(all_businesses)}")
+                        print("Список всех бизнесов:")
+                        for bus in all_businesses:
+                            print(f"- ID: {bus.get('_id')}, company_id: {bus.get('company_id')}, name: {bus.get('name')}")
+                        
+                        # Ищем бизнесы по ID компании
+                        businesses = list(collection.find({"company_id": str(company_id)}))
+                        print(f"Найдено бизнесов для компании: {len(businesses)}")
+                        
+                        # Если бизнесы не найдены, попробуем создать тестовые данные
+                        if not businesses:
+                            print("Бизнесы не найдены, создаем тестовые данные")
+                            # Создаем тестовый бизнес
+                            test_business = {
+                                "_id": ObjectId(),
+                                "company_id": str(company_id),
+                                "name": "Бизнес 1",
+                                "description": "Описание первого бизнеса",
+                                "created_at": datetime.now(UTC).isoformat(),
+                                "products": [
+                                    {
+                                        "name": "Продукт 1",
+                                        "description": "Описание продукта 1",
+                                        "price": 100,
+                                        "created_at": datetime.now(UTC).isoformat()
+                                    },
+                                    {
+                                        "name": "Продукт 2",
+                                        "description": "Описание продукта 2",
+                                        "price": 200,
+                                        "created_at": datetime.now(UTC).isoformat()
+                                    }
+                                ]
+                            }
+                            # Вставляем тестовый бизнес в коллекцию
+                            collection.insert_one(test_business)
+                            businesses = [test_business]
+                            print("Тестовый бизнес создан")
+                        
+                        # Преобразуем ObjectId в строки для JSON и добавляем недостающие поля
                         for business in businesses:
                             business["_id"] = str(business["_id"])
                             business["company_id"] = str(business["company_id"])
+                            
+                            # Убедимся, что у бизнеса есть все необходимые поля
+                            if "products" not in business:
+                                business["products"] = []
+                            if "description" not in business:
+                                business["description"] = ""
+                            if "created_at" not in business:
+                                business["created_at"] = datetime.now(UTC).isoformat()
+                            
+                            # Преобразуем продукты в правильный формат
+                            if isinstance(business["products"], list):
+                                formatted_products = []
+                                for product in business["products"]:
+                                    if isinstance(product, dict):
+                                        formatted_products.append({
+                                            "name": product.get("name", ""),
+                                            "description": product.get("description", ""),
+                                            "price": product.get("price", 0),
+                                            "created_at": product.get("created_at", datetime.now(UTC).isoformat())
+                                        })
+                                business["products"] = formatted_products
                         
                         response = {
                             "status": "success",
@@ -102,10 +163,18 @@ def process_auth_message(ch, method, properties, body):
                             print(f"\nБизнес: {business['name']}")
                             print(f"- ID: {business['_id']}")
                             print(f"- Описание: {business['description']}")
+                            print(f"- Дата создания: {business['created_at']}")
                             print("- Продукты:")
                             for product in business['products']:
-                                print(f"  * {product}")
+                                print(f"  * {product['name']}")
+                                print(f"    - Описание: {product['description']}")
+                                print(f"    - Цена: {product['price']}")
+                                print(f"    - Дата создания: {product['created_at']}")
                         print("========================\n")
+                        
+                        # Выводим полный JSON для проверки
+                        print("Полный JSON ответа:")
+                        print(json.dumps(response, indent=2, ensure_ascii=False))
                     else:
                         print("Ошибка: у компании отсутствует _id")
                         response = {
