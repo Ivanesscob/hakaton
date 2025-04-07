@@ -6,6 +6,7 @@ import pika
 import json
 import os
 from dotenv import load_dotenv
+import asyncio
 
 load_dotenv()
 
@@ -30,6 +31,10 @@ def get_rabbitmq_connection():
 class DataItem(BaseModel):
     data: dict
 
+class LoginData(BaseModel):
+    company: str
+    password: str
+
 @app.get("/")
 async def read_root():
     return FileResponse('static/index.html')
@@ -37,6 +42,14 @@ async def read_root():
 @app.get("/panel")
 async def read_root():
     return FileResponse('static/panel.html')
+
+@app.get("/auth/register")
+async def read_root():
+    return FileResponse('static/auth/register.html')
+
+@app.get("/auth/login")
+async def read_root():
+    return FileResponse('static/auth/login.html')
 
 @app.post("/send-data/")
 async def send_data(item: DataItem):
@@ -60,6 +73,54 @@ async def send_data(item: DataItem):
         connection.close()
         return {"status": "success", "message": "Data sent to queue"}
     except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/auth/login")
+async def login(login_data: LoginData):
+    try:
+        connection = get_rabbitmq_connection()
+        channel = connection.channel()
+        
+        # Создаем очередь для авторизации, если она не существует
+        auth_queue = "auth_queue"
+        channel.queue_declare(queue=auth_queue, durable=True)
+        
+        # Создаем очередь для ответа
+        response_queue = "auth_response_queue"
+        channel.queue_declare(queue=response_queue, durable=True)
+        
+        # Очищаем очередь ответов перед отправкой нового запроса
+        channel.queue_purge(queue=response_queue)
+        
+        # Отправляем данные для авторизации
+        channel.basic_publish(
+            exchange='',
+            routing_key=auth_queue,
+            body=json.dumps({
+                "company": login_data.company,
+                "password": login_data.password
+            }),
+            properties=pika.BasicProperties(
+                delivery_mode=2,
+                reply_to=response_queue
+            )
+        )
+        
+        # Ждем ответ от worker'а (максимум 5 секунд)
+        for _ in range(50):  # 50 попыток по 0.1 секунды = 5 секунд
+            method_frame, header_frame, body = channel.basic_get(queue=response_queue)
+            if method_frame:
+                channel.basic_ack(method_frame.delivery_tag)
+                response_data = json.loads(body)
+                connection.close()
+                return response_data
+            await asyncio.sleep(0.1)
+        
+        connection.close()
+        raise HTTPException(status_code=408, detail="Таймаут ожидания ответа")
+            
+    except Exception as e:
+        print(f"Ошибка при авторизации: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/health")
