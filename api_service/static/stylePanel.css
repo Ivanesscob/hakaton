@@ -81,14 +81,14 @@ overflow: auto;
 .info-panel {
   grid-row: 2; /* Третий блок в отдельной строке */
   grid-column: 1 / -1; /* Занимает всю ширину */
-overflow: auto;
-    background-color: #254e58;
-            padding: 25px;
-            border-radius: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    font-family: "Comic Sans MS", cursive, sans-serif;
-    color:white;
-    font-size: 20px;
+  overflow: auto;
+  background-color: #254e58;
+  padding: 0;
+  border-radius: 20px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  color:white;
+  font-size: 20px;
 }
 
 .scene {
@@ -245,5 +245,158 @@ overflow: auto;
 
 .logout-btn:hover {
     background-color: #cc0000;
+}
+
+/* Стили для верхней панели */
+.top-panel {
+    width: 100%;
+    background-color: #1a3d42;
+    padding: 5px 0;
+    box-sizing: border-box;
+    margin: 0;
+    border-radius: 20px 20px 0 0;
+}
+
+/* Стили для навигационной полоски */
+.nav-bar {
+    display: flex;
+    align-items: center;
+    background-color: #102d31;
+    padding: 5px 10px;
+    width: fit-content;
+    margin: 0 auto;
+    border-radius: 5px;
+}
+
+.nav-back-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-right: 10px;
+}
+
+.nav-back-button:hover {
+    transform: scale(1.1);
+}
+
+.nav-back-icon {
+    font-size: 14px;
+    color: white;
+}
+
+.nav-title {
+    font-size: 12px;
+    color: white;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Стили для формы */
+.form-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.business-form {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background-color: #102d31;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.form-input {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #1a3d42;
+    color: white;
+    font-size: 16px;
+}
+
+.form-input::placeholder {
+    color: #a0a0a0;
+}
+
+.form-submit {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #254e58;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.form-submit:hover {
+    background-color: #3a6b77;
+}
+
+/* Стили для информации о бизнесе */
+.business-info-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.business-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    margin: 0;
+}
+
+.business-description {
+    font-size: 16px;
+    color: #e0e0e0;
+    margin: 0;
+}
+
+.products-container {
+    margin-top: 10px;
+}
+
+.products-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    margin: 0 0 10px 0;
+}
+
+.products-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.product-item {
+    background-color: #1a3d42;
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+}
+
+.no-products-message {
+    color: #a0a0a0;
+    font-style: italic;
+    margin: 0;
 }
 
