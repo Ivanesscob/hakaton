@@ -15,6 +15,11 @@
 
 <div class="sidebar" id="sidebar">
     <h3>Меню</h3>
+    <div class="sidebar-text">
+        <p>Добро пожаловать в панель управления!</p>
+        <p>Здесь вы можете управлять своими бизнесами и продуктами.</p>
+        <p>Для выхода из системы нажмите кнопку ниже.</p>
+    </div>
     <button class="logout-btn" id="logout-btn">Выйти</button>
 </div>
 
@@ -74,13 +79,51 @@
             sceneBox.addEventListener('click', () => showBusinessInfo(business));
             sceneContainer.appendChild(sceneBox);
             
-            // Создаем блок в списке
-            const listBox = document.createElement('div');
-            listBox.className = 'list-box';
-            listBox.textContent = business.name;
-            listBox.dataset.businessId = business._id;
-            listBox.addEventListener('click', () => showBusinessInfo(business));
-            listContainer.appendChild(listBox);
+            // Создаем элемент в списке
+            const listItem = document.createElement('div');
+            listItem.className = 'list-box';
+            listItem.textContent = business.name;
+            listItem.dataset.businessId = business._id;
+            
+            // Создаем контейнер для продуктов
+            const productsContainer = document.createElement('div');
+            productsContainer.className = 'products-tree';
+            productsContainer.style.display = 'none';
+            
+            // Добавляем продукты в дерево
+            if (business.products && business.products.length > 0) {
+                const productsList = document.createElement('ul');
+                business.products.forEach(product => {
+                    const productItem = document.createElement('li');
+                    productItem.textContent = `${product.name} - ${product.price} руб.`;
+                    productsList.appendChild(productItem);
+                });
+                productsContainer.appendChild(productsList);
+            } else {
+                productsContainer.innerHTML = '<p>Нет продуктов</p>';
+            }
+            
+            // Добавляем обработчик клика для раскрытия дерева продуктов
+            listItem.addEventListener('click', () => {
+                // Проверяем, открыто ли уже дерево продуктов для этого бизнеса
+                const isTreeVisible = productsContainer.style.display === 'block';
+                
+                // Скрываем все деревья продуктов
+                document.querySelectorAll('.products-tree').forEach(tree => {
+                    tree.style.display = 'none';
+                });
+                
+                // Если дерево было скрыто, показываем его, иначе оставляем скрытым
+                if (!isTreeVisible) {
+                    productsContainer.style.display = 'block';
+                    // Показываем информацию о бизнесе
+                    showBusinessInfo(business);
+                }
+            });
+            
+            // Добавляем элементы в список
+            listContainer.appendChild(listItem);
+            listContainer.appendChild(productsContainer);
         });
         
         // Добавляем блок-кнопку для создания нового бизнеса

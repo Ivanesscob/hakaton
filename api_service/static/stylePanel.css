@@ -17,9 +17,9 @@ body {
   grid-row: 1; /* Второй блок в первой строке */
   grid-column: 2; /* Устанавливаем на вторую колонку */
 overflow: auto;
-    display: grid;
-  gap: 10px; /* расстояние между элементами */
-  grid-template-rows: repeat(auto-fill, 20%);
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* расстояние между элементами */
 
     background-color: #254e58;
             padding: 25px;
@@ -36,19 +36,46 @@ overflow: auto;
   position: relative;
   box-sizing: border-box; /* чтобы padding не увеличивал размер */
 
-  background-color: #102d31;
-  padding: 25px;
-  border-radius: 20px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  background-color: transparent;
+  padding: 5px 0;
   font-family: "Comic Sans MS", cursive, sans-serif;
   color: white;
-  font-size: 20px;
-
-
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
 }
 .list-box:hover {
-      transform: scale(1.1); /* Увеличение на 20% */
+      text-decoration: underline;
     }
+
+/* Стили для дерева продуктов */
+.products-tree {
+    margin-left: 20px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    padding-left: 15px;
+    border-left: 2px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+}
+
+.products-tree ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.products-tree li {
+    padding: 5px 0;
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.8);
+    transition: all 0.3s ease;
+}
+
+.products-tree li:hover {
+    color: white;
+    transform: translateX(5px);
+}
 
 /* Стили для третьего блока */
 .info-panel {
@@ -75,7 +102,7 @@ overflow: auto;
   background-color: #254e58;
   padding: 25px;
   border-radius: 20px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
   font-family: "Comic Sans MS", cursive, sans-serif;
   color: white;
   font-size: 20px;
@@ -191,6 +218,17 @@ overflow: auto;
 
 .sidebar-toggle.open {
     left: 250px;
+}
+
+.sidebar-text {
+    margin: 20px 0;
+    line-height: 1.5;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    font-size: 16px;
+}
+
+.sidebar-text p {
+    margin-bottom: 10px;
 }
 
 .logout-btn {
