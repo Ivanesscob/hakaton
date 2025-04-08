@@ -111,6 +111,31 @@ function loadCompanyData() {
                 productsContainer.style.display = 'block';
                 // Показываем информацию о бизнесе
                 showBusinessInfo(business);
+                
+                // Изменяем панель сцены, показывая продукты бизнеса
+                const sceneContainer = document.getElementById('scene-container');
+                
+                // Очищаем контейнер сцены
+                sceneContainer.innerHTML = '';
+                
+                // Создаем блоки для каждого продукта в сцене
+                if (business.products && business.products.length > 0) {
+                    business.products.forEach(product => {
+                        const productBox = document.createElement('div');
+                        productBox.className = 'scene-box';
+                        productBox.innerHTML = `
+                            <div class="product-name">${product.name}</div>
+                            <div class="product-price">${product.price} руб.</div>
+                            <div class="product-description">${product.description || 'Нет описания'}</div>
+                        `;
+                        sceneContainer.appendChild(productBox);
+                    });
+                } else {
+                    const noProductsMessage = document.createElement('div');
+                    noProductsMessage.className = 'scene-box';
+                    noProductsMessage.textContent = 'Нет продуктов';
+                    sceneContainer.appendChild(noProductsMessage);
+                }
             } else {
                 productsContainer.style.display = 'none';
             }
