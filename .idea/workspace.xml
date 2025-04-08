@@ -4,7 +4,56 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="283d77c1-d79b-44d5-b80c-85b3d5fcb013" name="Changes" comment="" />
+    <list default="true" id="283d77c1-d79b-44d5-b80c-85b3d5fcb013" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/hakaton.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/hakaton.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_service/.env" beforeDir="false" afterPath="$PROJECT_DIR$/api_service/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_service/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/api_service/.idea/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_service/.idea/api_service.iml" beforeDir="false" afterPath="$PROJECT_DIR$/api_service/.idea/api_service.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_service/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/api_service/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_service/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/api_service/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_service/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/api_service/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_service/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/api_service/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_service/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/api_service/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_service/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/api_service/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_service/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/api_service/run.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_service/static/auth/auth.css" beforeDir="false" afterPath="$PROJECT_DIR$/api_service/static/auth/auth.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_service/static/auth/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/api_service/static/auth/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_service/static/auth/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/api_service/static/auth/register.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_service/static/companyProfile.css" beforeDir="false" afterPath="$PROJECT_DIR$/api_service/static/companyProfile.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_service/static/companyProfile.html" beforeDir="false" afterPath="$PROJECT_DIR$/api_service/static/companyProfile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_service/static/companyProfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/api_service/static/companyProfile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_service/static/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/api_service/static/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_service/static/js/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/api_service/static/js/auth.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_service/static/js/business.js" beforeDir="false" afterPath="$PROJECT_DIR$/api_service/static/js/business.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_service/static/js/companyProfile.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_service/static/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/api_service/static/js/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_service/static/js/scenes.js" beforeDir="false" afterPath="$PROJECT_DIR$/api_service/static/js/scenes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_service/static/js/ui.js" beforeDir="false" afterPath="$PROJECT_DIR$/api_service/static/js/ui.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_service/static/panel.html" beforeDir="false" afterPath="$PROJECT_DIR$/api_service/static/panel.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_service/static/stylePanel.css" beforeDir="false" afterPath="$PROJECT_DIR$/api_service/static/stylePanel.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_service/static/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/api_service/static/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/new_company_data.json" beforeDir="false" afterPath="$PROJECT_DIR$/new_company_data.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/run_workers.py" beforeDir="false" afterPath="$PROJECT_DIR$/run_workers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/worker_service/.env" beforeDir="false" afterPath="$PROJECT_DIR$/worker_service/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/worker_service/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/worker_service/.idea/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/worker_service/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/worker_service/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/worker_service/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/worker_service/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/worker_service/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/worker_service/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/worker_service/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/worker_service/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/worker_service/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/worker_service/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/worker_service/.idea/worker_service.iml" beforeDir="false" afterPath="$PROJECT_DIR$/worker_service/.idea/worker_service.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/worker_service/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/worker_service/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/worker_service/register_worker.py" beforeDir="false" afterPath="$PROJECT_DIR$/worker_service/register_worker.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/worker_service/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/worker_service/requirements.txt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -16,19 +65,20 @@
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;git-widget-placeholder&quot;: &quot;&lt;unknown&gt;&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "git-widget-placeholder": "main",
+    "node.js.selected.package.tslint": "(autodetect)"
   }
-}</component>
+}]]></component>
   <component name="TaskManager">
     <servers />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/hakaton$register_worker.coverage" NAME="register_worker Coverage Results" MODIFIED="1744072562456" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/worker_service" />
-    <SUITE FILE_PATH="coverage/hakaton$main.coverage" NAME="main Coverage Results" MODIFIED="1744063774214" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/worker_service" />
-    <SUITE FILE_PATH="coverage/hakaton$run.coverage" NAME="run Coverage Results" MODIFIED="1744101929719" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/api_service" />
-    <SUITE FILE_PATH="coverage/hakaton$run_workers.coverage" NAME="run_workers Coverage Results" MODIFIED="1744101933564" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/hakaton$run.coverage" NAME="run Coverage Results" MODIFIED="1744108969863" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/api_service" />
+    <SUITE FILE_PATH="coverage/hakaton$register_worker.coverage" NAME="register_worker Coverage Results" MODIFIED="1744094950631" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/worker_service" />
+    <SUITE FILE_PATH="coverage/hakaton$run_workers.coverage" NAME="run_workers Coverage Results" MODIFIED="1744109162488" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/hakaton$update_company_worker.coverage" NAME="update_company_worker Coverage Results" MODIFIED="1744106588810" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/worker_service" />
+    <SUITE FILE_PATH="coverage/hakaton$main.coverage" NAME="main Coverage Results" MODIFIED="1744107847803" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/worker_service" />
   </component>
 </project>
