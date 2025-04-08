@@ -49,6 +49,41 @@
 <script src="/static/js/ui.js"></script>
 <script src="/static/js/scenes.js"></script>
 <script src="/static/js/main.js"></script>
+  <script>
+        // Переменные для отслеживания свайпа
+        let startX, endX;
+
+        // Получаем элементы
+        const list = document.querySelector('.list');
+        const scene = document.querySelector('.scene');
+
+        // Пороговое значение для свайпа
+        const swipeThreshold = 100;
+
+        // Слушаем события касания
+        document.addEventListener('touchstart', function(e) {
+            // Получаем начальную позицию свайпа
+            startX = e.touches[0].clientX;
+        });
+
+        document.addEventListener('touchmove', function(e) {
+            // Получаем конечную позицию свайпа
+            endX = e.touches[0].clientX;
+        });
+
+        document.addEventListener('touchend', function() {
+            // Если свайп вправо (больше порога)
+            if (endX - startX > swipeThreshold) {
+                list.style.display = 'none';  // Прячем список
+                scene.style.display = 'block'; // Показываем сцену
+            }
+            // Если свайп влево (меньше порога)
+            else if (startX - endX > swipeThreshold) {
+                list.style.display = 'block'; // Показываем список
+                scene.style.display = 'none';  // Прячем сцену
+            }
+        });
+    </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'92d0226e4e05b0dc',t:'MTc0NDA5ODIxNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
 </body>
 </html>
