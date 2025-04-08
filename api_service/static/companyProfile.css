@@ -1,0 +1,336 @@
+/* Общие стили для страницы */
+body {
+  background-color: #102d31;
+  margin: 0;
+  overflow: hidden;
+  position: relative;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  color: white;
+}
+
+/* Фоновые эффекты */
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(138, 189, 188, 0.1) 0%, transparent 70%);
+  opacity: 0.3;
+  animation: pulse 10s infinite ease-in-out;
+  z-index: -1;
+}
+
+body::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><circle cx="10%" cy="20%" r="2" fill="#8abdbc" opacity="0.5"><animate attributeName="cy" values="20%;80%;20%" dur="15s" repeatCount="indefinite"/></circle><circle cx="30%" cy="50%" r="3" fill="#d90dc0" opacity="0.4"><animate attributeName="cy" values="50%;90%;50%" dur="20s" repeatCount="indefinite"/></circle><circle cx="70%" cy="30%" r="2" fill="#0d9cd9" opacity="0.5"><animate attributeName="cy" values="30%;70%;30%" dur="18s" repeatCount="indefinite"/></circle></svg>');
+  z-index: -1;
+}
+
+/* Стили для кнопки возврата */
+.back-btn-container {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+}
+
+.back-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(90deg, #d90dc0 0%, #0d9cd9 100%);
+  color: white;
+  border-radius: 50%;
+  text-decoration: none;
+  transition: all 0.4s ease;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.back-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: all 0.6s ease;
+}
+
+.back-btn:hover::before {
+  left: 100%;
+}
+
+.back-btn:hover {
+  transform: scale(1.2) rotate(360deg);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.back-btn svg {
+  width: 24px;
+  height: 24px;
+  stroke: white;
+  transition: all 0.4s ease;
+}
+
+.back-btn:hover svg {
+  stroke: #fff;
+  transform: scale(1.1);
+}
+
+/* Основной контейнер профиля */
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  padding: 40px;
+  box-sizing: border-box;
+  background: linear-gradient(135deg, #102d31 0%, #1a3c42 100%);
+}
+
+/* Заголовок профиля */
+.profile-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.company-title {
+  font-size: 36px;
+  font-weight: bold;
+  color: white;
+  position: relative;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.8s ease forwards;
+}
+
+.company-title::before {
+  content: "🏢";
+  position: absolute;
+  left: -40px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 30px;
+  opacity: 0;
+  transition: all 0.4s ease;
+}
+
+.company-title:hover::before {
+  opacity: 1;
+  left: -30px;
+}
+
+.company-title::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #d90dc0 0%, #0d9cd9 100%);
+  transition: width 0.4s ease;
+}
+
+.company-title:hover::after {
+  width: 50%;
+}
+
+/* Контент профиля */
+.profile-content {
+  display: flex;
+  gap: 40px;
+  flex: 1;
+  background: linear-gradient(145deg, #254e58 0%, #1a3c42 100%);
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5), inset 0 2px 5px rgba(255, 255, 255, 0.1);
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.8s ease forwards 0.2s;
+}
+
+.profile-content:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), inset 0 2px 5px rgba(255, 255, 255, 0.15);
+}
+
+/* Контейнер для изображения */
+.company-image-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.company-image-placeholder {
+  width: 300px;
+  height: 300px;
+  background: linear-gradient(145deg, #102d31 0%, #1a3c42 100%);
+  border-radius: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4), inset 0 2px 5px rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #a0a0a0;
+  font-size: 16px;
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.company-image-placeholder::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.company-image-placeholder:hover::before {
+  opacity: 1;
+}
+
+.company-image-placeholder:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+}
+
+.company-image-placeholder svg {
+  width: 100px;
+  height: 100px;
+  stroke: #a0a0a0;
+  margin-bottom: 10px;
+  transition: all 0.4s ease;
+}
+
+.company-image-placeholder:hover svg {
+  stroke: #8abdbc;
+  transform: scale(1.1);
+}
+
+.company-image-placeholder p {
+  margin: 0;
+  transition: all 0.4s ease;
+}
+
+.company-image-placeholder:hover p {
+  color: #fff;
+}
+
+/* Информация о компании */
+.company-info {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.company-name {
+  font-size: 28px;
+  font-weight: bold;
+  color: white;
+  margin: 0;
+  position: relative;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.8s ease forwards 0.4s;
+}
+
+.company-name::before {
+  content: "✨";
+  position: absolute;
+  left: -30px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 24px;
+  opacity: 0;
+  transition: all 0.4s ease;
+}
+
+.company-name:hover::before {
+  opacity: 1;
+  left: -20px;
+}
+
+.company-email,
+.company-created {
+  font-size: 18px;
+  color: #e0e0e0;
+  margin: 0;
+  position: relative;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.4s ease;
+}
+
+.company-email {
+  animation: fadeInUp 0.8s ease forwards 0.6s;
+}
+
+.company-created {
+  animation: fadeInUp 0.8s ease forwards 0.8s;
+}
+
+.company-email:hover,
+.company-created:hover {
+  color: #fff;
+  transform: translateX(10px);
+}
+
+.company-email span,
+.company-created span {
+  color: #8abdbc;
+  font-weight: bold;
+  margin-right: 10px;
+  transition: all 0.4s ease;
+}
+
+.company-email:hover span,
+.company-created:hover span {
+  color: #d90dc0;
+}
+
+/* Анимации */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+}

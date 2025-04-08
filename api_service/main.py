@@ -54,6 +54,9 @@ async def read_root():
 async def read_root():
     return FileResponse('static/panel.html')
 
+@app.get("/profile")
+async def read_root():
+    return FileResponse('static/companyProfile.html')
 
 @app.get("/auth/register")
 async def read_root():
