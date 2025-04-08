@@ -63,7 +63,25 @@ function updateScene() {
             currentBusiness.products.forEach(product => {
                 const productBox = document.createElement('div');
                 productBox.className = 'scene-box';
-                productBox.innerHTML = ` 
+                productBox.style.display = 'flex';
+                productBox.style.flexDirection = 'column';
+                productBox.style.alignItems = 'center';
+                productBox.style.justifyContent = 'center';
+                productBox.style.padding = '10px';
+
+                // Добавляем изображение, если оно есть
+                if (product.image) {
+                    const img = document.createElement('img');
+                    img.src = product.image;
+                    img.style.width = '100%';
+                    img.style.height = '100px';
+                    img.style.objectFit = 'cover';
+                    img.style.borderRadius = '5px';
+                    img.style.marginBottom = '10px';
+                    productBox.appendChild(img);
+                }
+
+                productBox.innerHTML += ` 
                     <div class="product-name">${product.name}</div>
                     <div class="product-price">${product.price} руб.</div>
                     <div class="product-description">${product.description || 'Нет описания'}</div>
@@ -91,12 +109,33 @@ function updateScene() {
         businesses.forEach((business) => {
             const sceneBox = document.createElement('div');
             sceneBox.className = 'scene-box';
-            sceneBox.textContent = business.name;
+            sceneBox.style.display = 'flex';
+            sceneBox.style.flexDirection = 'column';
+            sceneBox.style.alignItems = 'center';
+            sceneBox.style.justifyContent = 'center';
+            sceneBox.style.padding = '10px';
+
+            if (business.image) {
+                const img = document.createElement('img');
+                img.src = business.image;
+                img.style.width = '100%';
+                img.style.height = '100px';
+                img.style.objectFit = 'cover';
+                img.style.borderRadius = '5px';
+                img.style.marginBottom = '10px';
+                sceneBox.appendChild(img);
+            }
+
+            const nameDiv = document.createElement('div');
+            nameDiv.textContent = business.name;
+            nameDiv.style.textAlign = 'center';
+            sceneBox.appendChild(nameDiv);
+
             sceneBox.dataset.businessId = business._id;
             sceneBox.addEventListener('click', () => {
                 currentBusiness = business;
                 updateScene();
-                updateList(); // Обновляем список
+                updateList();
                 showBusinessProductsScene(business);
             });
             sceneContainer.appendChild(sceneBox);
@@ -112,7 +151,7 @@ function updateScene() {
     }
 }
 
-// Новая функция для обновления списка
+// Функция для обновления списка
 function updateList() {
     const listContainer = document.getElementById('list-container');
     listContainer.innerHTML = '';
@@ -123,7 +162,24 @@ function updateList() {
     businesses.forEach((business) => {
         const listItem = document.createElement('div');
         listItem.className = 'list-box';
-        listItem.textContent = business.name;
+        listItem.style.display = 'flex';
+        listItem.style.alignItems = 'center';
+        listItem.style.gap = '10px';
+
+        if (business.image) {
+            const img = document.createElement('img');
+            img.src = business.image;
+            img.style.width = '30px';
+            img.style.height = '30px';
+            img.style.objectFit = 'cover';
+            img.style.borderRadius = '5px';
+            listItem.appendChild(img);
+        }
+
+        const nameSpan = document.createElement('span');
+        nameSpan.textContent = business.name;
+        listItem.appendChild(nameSpan);
+
         listItem.dataset.businessId = business._id;
 
         const productsContainer = document.createElement('div');
@@ -134,7 +190,24 @@ function updateList() {
             const productsList = document.createElement('ul');
             business.products.forEach(product => {
                 const productItem = document.createElement('li');
-                productItem.textContent = `${product.name} - ${product.price} руб.`;
+                productItem.style.display = 'flex';
+                productItem.style.alignItems = 'center';
+                productItem.style.gap = '5px';
+
+                if (product.image) {
+                    const img = document.createElement('img');
+                    img.src = product.image;
+                    img.style.width = '20px';
+                    img.style.height = '20px';
+                    img.style.objectFit = 'cover';
+                    img.style.borderRadius = '3px';
+                    productItem.appendChild(img);
+                }
+
+                const productText = document.createElement('span');
+                productText.textContent = `${product.name} - ${product.price} руб.`;
+                productItem.appendChild(productText);
+
                 productsList.appendChild(productItem);
             });
             productsContainer.appendChild(productsList);
@@ -195,17 +268,23 @@ function showAddBusinessScene() {
     const form = document.createElement('form');
     form.className = 'business-form';
 
-    const inputField = document.createElement('input');
-    inputField.type = 'text';
-    inputField.placeholder = 'Введите название бизнеса';
-    inputField.className = 'form-input';
+    const nameInput = document.createElement('input');
+    nameInput.type = 'text';
+    nameInput.placeholder = 'Введите название бизнеса';
+    nameInput.className = 'form-input';
+
+    const imageInput = document.createElement('input');
+    imageInput.type = 'text';
+    imageInput.placeholder = 'Введите URL изображения (опционально)';
+    imageInput.className = 'form-input';
 
     const submitButton = document.createElement('button');
     submitButton.type = 'submit';
     submitButton.textContent = 'Добавить';
     submitButton.className = 'form-submit';
 
-    form.appendChild(inputField);
+    form.appendChild(nameInput);
+    form.appendChild(imageInput);
     form.appendChild(submitButton);
     formContainer.appendChild(form);
 
@@ -214,7 +293,8 @@ function showAddBusinessScene() {
     form.addEventListener('submit', (e) => {
         e.preventDefault();
 
-        const businessName = inputField.value.trim();
+        const businessName = nameInput.value.trim();
+        const businessImage = imageInput.value.trim();
 
         if (businessName) {
             let companyData = JSON.parse(localStorage.getItem('companyData')) || { status: 'success', businesses: [] };
@@ -222,6 +302,7 @@ function showAddBusinessScene() {
             const newBusiness = {
                 _id: Date.now().toString(),
                 name: businessName,
+                image: businessImage || null,
                 products: []
             };
 
@@ -230,6 +311,8 @@ function showAddBusinessScene() {
             localStorage.setItem('companyData', JSON.stringify(companyData));
 
             showMainScene();
+        } else {
+            alert('Пожалуйста, введите название бизнеса');
         }
     });
 }
@@ -276,6 +359,56 @@ function showBusinessProductsScene(business) {
     const productsContainer = document.createElement('div');
     productsContainer.className = 'products-container';
 
+    // Кнопки управления бизнесом
+    const businessButtonsContainer = document.createElement('div');
+    businessButtonsContainer.style.display = 'flex';
+    businessButtonsContainer.style.gap = '10px';
+    businessButtonsContainer.style.marginBottom = '20px';
+
+    const editBusinessButton = document.createElement('button');
+    editBusinessButton.textContent = 'Редактировать бизнес';
+    editBusinessButton.className = 'form-submit';
+    editBusinessButton.style.background = 'linear-gradient(90deg, #0d9cd9 0%, #d90dc0 100%)';
+    editBusinessButton.addEventListener('click', () => {
+        showEditBusinessScene(business);
+    });
+
+    const deleteBusinessButton = document.createElement('button');
+    deleteBusinessButton.textContent = 'Удалить бизнес';
+    deleteBusinessButton.className = 'form-submit';
+    deleteBusinessButton.style.background = 'linear-gradient(90deg, #ff4444 0%, #cc0000 100%)';
+    deleteBusinessButton.addEventListener('click', () => {
+        deleteBusiness(business);
+    });
+
+    businessButtonsContainer.appendChild(editBusinessButton);
+    businessButtonsContainer.appendChild(deleteBusinessButton);
+
+    // Кнопка удаления изображения бизнеса
+    if (business.image) {
+        const deleteImageButton = document.createElement('button');
+        deleteImageButton.textContent = 'Удалить изображение';
+        deleteImageButton.className = 'form-submit';
+        deleteImageButton.style.background = 'linear-gradient(90deg, #ff9900 0%, #cc6600 100%)';
+        deleteImageButton.addEventListener('click', () => {
+            let companyData = JSON.parse(localStorage.getItem('companyData')) || { status: 'success', businesses: [] };
+            const businessIndex = companyData.businesses.findIndex(b => b._id === business._id);
+            if (businessIndex === -1) {
+                console.error('Бизнес не найден');
+                return;
+            }
+            companyData.businesses[businessIndex].image = null;
+            localStorage.setItem('companyData', JSON.stringify(companyData));
+            currentBusiness = companyData.businesses[businessIndex];
+            showBusinessProductsScene(currentBusiness);
+            updateScene();
+            updateList();
+        });
+        businessButtonsContainer.appendChild(deleteImageButton);
+    }
+
+    productsContainer.appendChild(businessButtonsContainer);
+
     const productsList = document.createElement('ul');
     productsList.className = 'products-list';
 
@@ -283,7 +416,22 @@ function showBusinessProductsScene(business) {
         business.products.forEach((product, productIndex) => {
             const productItem = document.createElement('li');
             productItem.className = 'product-item';
-            productItem.innerHTML = `
+            productItem.style.display = 'flex';
+            productItem.style.flexDirection = 'column';
+            productItem.style.gap = '5px';
+
+            // Отображаем изображение продукта, если оно есть
+            if (product.image) {
+                const img = document.createElement('img');
+                img.src = product.image;
+                img.style.width = '100%';
+                img.style.height = '100px';
+                img.style.objectFit = 'cover';
+                img.style.borderRadius = '5px';
+                productItem.appendChild(img);
+            }
+
+            productItem.innerHTML += `
                 <div class="product-name">${product.name}</div>
                 <div class="product-price">${product.price} руб.</div>
                 <div class="product-description">${product.description || 'Нет описания'}</div>
@@ -312,6 +460,30 @@ function showBusinessProductsScene(business) {
 
             buttonsContainer.appendChild(editButton);
             buttonsContainer.appendChild(deleteButton);
+
+            // Кнопка удаления изображения продукта
+            if (product.image) {
+                const deleteImageButton = document.createElement('button');
+                deleteImageButton.textContent = 'Удалить изображение';
+                deleteImageButton.className = 'form-submit';
+                deleteImageButton.style.background = 'linear-gradient(90deg, #ff9900 0%, #cc6600 100%)';
+                deleteImageButton.addEventListener('click', () => {
+                    let companyData = JSON.parse(localStorage.getItem('companyData')) || { status: 'success', businesses: [] };
+                    const businessIndex = companyData.businesses.findIndex(b => b._id === business._id);
+                    if (businessIndex === -1) {
+                        console.error('Бизнес не найден');
+                        return;
+                    }
+                    companyData.businesses[businessIndex].products[productIndex].image = null;
+                    localStorage.setItem('companyData', JSON.stringify(companyData));
+                    currentBusiness = companyData.businesses[businessIndex];
+                    showBusinessProductsScene(currentBusiness);
+                    updateScene();
+                    updateList();
+                });
+                buttonsContainer.appendChild(deleteImageButton);
+            }
+
             productItem.appendChild(buttonsContainer);
 
             productsList.appendChild(productItem);
@@ -378,6 +550,11 @@ function showAddProductScene(business) {
     descriptionInput.className = 'form-input';
     descriptionInput.style.height = '100px';
 
+    const imageInput = document.createElement('input');
+    imageInput.type = 'text';
+    imageInput.placeholder = 'Введите URL изображения (опционально)';
+    imageInput.className = 'form-input';
+
     const submitButton = document.createElement('button');
     submitButton.type = 'submit';
     submitButton.textContent = 'Добавить продукт';
@@ -386,6 +563,7 @@ function showAddProductScene(business) {
     form.appendChild(nameInput);
     form.appendChild(priceInput);
     form.appendChild(descriptionInput);
+    form.appendChild(imageInput);
     form.appendChild(submitButton);
     formContainer.appendChild(form);
 
@@ -397,6 +575,7 @@ function showAddProductScene(business) {
         const productName = nameInput.value.trim();
         const productPrice = parseFloat(priceInput.value);
         const productDescription = descriptionInput.value.trim();
+        const productImage = imageInput.value.trim();
 
         if (productName && !isNaN(productPrice) && productPrice > 0) {
             let companyData = JSON.parse(localStorage.getItem('companyData')) || { status: 'success', businesses: [] };
@@ -410,7 +589,8 @@ function showAddProductScene(business) {
             const newProduct = {
                 name: productName,
                 price: productPrice,
-                description: productDescription || 'Нет описания'
+                description: productDescription || 'Нет описания',
+                image: productImage || null
             };
 
             companyData.businesses[businessIndex].products.push(newProduct);
@@ -420,7 +600,7 @@ function showAddProductScene(business) {
             currentBusiness = companyData.businesses[businessIndex];
             showBusinessProductsScene(currentBusiness);
             updateScene();
-            updateList(); // Обновляем список
+            updateList();
         } else {
             alert('Пожалуйста, введите название продукта и корректную цену');
         }
@@ -474,6 +654,12 @@ function showEditProductScene(business, productIndex) {
     descriptionInput.style.height = '100px';
     descriptionInput.value = product.description || '';
 
+    const imageInput = document.createElement('input');
+    imageInput.type = 'text';
+    imageInput.placeholder = 'Введите URL изображения (опционально)';
+    imageInput.className = 'form-input';
+    imageInput.value = product.image || '';
+
     const submitButton = document.createElement('button');
     submitButton.type = 'submit';
     submitButton.textContent = 'Сохранить изменения';
@@ -482,6 +668,7 @@ function showEditProductScene(business, productIndex) {
     form.appendChild(nameInput);
     form.appendChild(priceInput);
     form.appendChild(descriptionInput);
+    form.appendChild(imageInput);
     form.appendChild(submitButton);
     formContainer.appendChild(form);
 
@@ -493,6 +680,7 @@ function showEditProductScene(business, productIndex) {
         const productName = nameInput.value.trim();
         const productPrice = parseFloat(priceInput.value);
         const productDescription = descriptionInput.value.trim();
+        const productImage = imageInput.value.trim();
 
         if (productName && !isNaN(productPrice) && productPrice > 0) {
             let companyData = JSON.parse(localStorage.getItem('companyData')) || { status: 'success', businesses: [] };
@@ -506,7 +694,8 @@ function showEditProductScene(business, productIndex) {
             companyData.businesses[businessIndex].products[productIndex] = {
                 name: productName,
                 price: productPrice,
-                description: productDescription || 'Нет описания'
+                description: productDescription || 'Нет описания',
+                image: productImage || null
             };
 
             localStorage.setItem('companyData', JSON.stringify(companyData));
@@ -514,7 +703,7 @@ function showEditProductScene(business, productIndex) {
             currentBusiness = companyData.businesses[businessIndex];
             showBusinessProductsScene(currentBusiness);
             updateScene();
-            updateList(); // Обновляем список
+            updateList();
         } else {
             alert('Пожалуйста, введите название продукта и корректную цену');
         }
@@ -539,6 +728,106 @@ function deleteProduct(business, productIndex) {
         currentBusiness = companyData.businesses[businessIndex];
         showBusinessProductsScene(currentBusiness);
         updateScene();
-        updateList(); // Обновляем список
+        updateList();
+    }
+}
+
+// Функция для показа сцены редактирования бизнеса
+function showEditBusinessScene(business) {
+    const infoPanel = document.getElementById('info-panel');
+    const topPanel = document.getElementById('top-panel');
+
+    if (topPanel) {
+        topPanel.parentNode.removeChild(topPanel);
+    }
+
+    infoPanel.innerHTML = '';
+
+    if (topPanel) {
+        infoPanel.appendChild(topPanel);
+    }
+
+    updateNavigationBar('Редактирование бизнеса');
+
+    const sceneContainer = document.getElementById('scene-container');
+
+    sceneContainer.innerHTML = '';
+
+    const formContainer = document.createElement('div');
+    formContainer.className = 'form-container';
+
+    const form = document.createElement('form');
+    form.className = 'business-form';
+
+    const nameInput = document.createElement('input');
+    nameInput.type = 'text';
+    nameInput.placeholder = 'Название бизнеса';
+    nameInput.className = 'form-input';
+    nameInput.value = business.name;
+
+    const imageInput = document.createElement('input');
+    imageInput.type = 'text';
+    imageInput.placeholder = 'Введите URL изображения (опционально)';
+    imageInput.className = 'form-input';
+    imageInput.value = business.image || '';
+
+    const submitButton = document.createElement('button');
+    submitButton.type = 'submit';
+    submitButton.textContent = 'Сохранить изменения';
+    submitButton.className = 'form-submit';
+
+    form.appendChild(nameInput);
+    form.appendChild(imageInput);
+    form.appendChild(submitButton);
+    formContainer.appendChild(form);
+
+    sceneContainer.appendChild(formContainer);
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const businessName = nameInput.value.trim();
+        const businessImage = imageInput.value.trim();
+
+        if (businessName) {
+            let companyData = JSON.parse(localStorage.getItem('companyData')) || { status: 'success', businesses: [] };
+
+            const businessIndex = companyData.businesses.findIndex(b => b._id === business._id);
+            if (businessIndex === -1) {
+                console.error('Бизнес не найден');
+                return;
+            }
+
+            companyData.businesses[businessIndex].name = businessName;
+            companyData.businesses[businessIndex].image = businessImage || null;
+
+            localStorage.setItem('companyData', JSON.stringify(companyData));
+
+            currentBusiness = companyData.businesses[businessIndex];
+            showBusinessProductsScene(currentBusiness);
+            updateScene();
+            updateList();
+        } else {
+            alert('Пожалуйста, введите название бизнеса');
+        }
+    });
+}
+
+// Функция для удаления бизнеса
+function deleteBusiness(business) {
+    if (confirm('Вы уверены, что хотите удалить этот бизнес? Все продукты внутри него также будут удалены.')) {
+        let companyData = JSON.parse(localStorage.getItem('companyData')) || { status: 'success', businesses: [] };
+
+        const businessIndex = companyData.businesses.findIndex(b => b._id === business._id);
+        if (businessIndex === -1) {
+            console.error('Бизнес не найден');
+            return;
+        }
+
+        companyData.businesses.splice(businessIndex, 1);
+
+        localStorage.setItem('companyData', JSON.stringify(companyData));
+
+        showMainScene();
     }
 }
