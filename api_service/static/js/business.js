@@ -4,41 +4,41 @@ function loadCompanyData() {
         window.location.href = '/auth/login';
         return;
     }
-    
+
     const companyData = JSON.parse(localStorage.getItem('companyData'));
-    
+
     if (!companyData || companyData.status !== 'success') {
         console.error('Данные компании не найдены или неверный формат');
         window.location.href = '/auth/login';
         return;
     }
-    
+
     const businesses = companyData.businesses || [];
     const sceneContainer = document.getElementById('scene-container');
     const listContainer = document.getElementById('list-container');
-    
+
     // Очищаем контейнеры
     sceneContainer.innerHTML = '';
     listContainer.innerHTML = '';
-    
+
     // Получаем информационную панель
     const infoPanel = document.getElementById('info-panel');
-    
+
     // Сохраняем навигационную панель, если она существует
     const topPanel = document.getElementById('top-panel');
     if (topPanel) {
         // Временно удаляем навигационную панель из DOM
         topPanel.parentNode.removeChild(topPanel);
     }
-    
+
     // Очищаем информационную панель
     infoPanel.innerHTML = '';
-    
+
     // Восстанавливаем навигационную панель
     if (topPanel) {
         infoPanel.appendChild(topPanel);
     }
-    
+
     // Создаем блоки для каждого бизнеса
     businesses.forEach((business, index) => {
         // Создаем блок в сцене
@@ -49,16 +49,16 @@ function loadCompanyData() {
         sceneBox.addEventListener('click', () => {
             // Получаем контейнер сцены
             const sceneContainer = document.getElementById('scene-container');
-            
+
             // Очищаем контейнер сцены
             sceneContainer.innerHTML = '';
-            
+
             // Создаем блоки для каждого продукта в сцене
             if (business.products && business.products.length > 0) {
                 business.products.forEach(product => {
                     const productBox = document.createElement('div');
                     productBox.className = 'scene-box';
-                    productBox.innerHTML = `
+                    productBox.innerHTML = ` 
                         <div class="product-name">${product.name}</div>
                         <div class="product-price">${product.price} руб.</div>
                         <div class="product-description">${product.description || 'Нет описания'}</div>
@@ -71,23 +71,23 @@ function loadCompanyData() {
                 noProductsMessage.textContent = 'Нет продуктов';
                 sceneContainer.appendChild(noProductsMessage);
             }
-            
+
             // Показываем информацию о бизнесе
             showBusinessInfo(business);
         });
         sceneContainer.appendChild(sceneBox);
-        
+
         // Создаем элемент в списке
         const listItem = document.createElement('div');
         listItem.className = 'list-box';
         listItem.textContent = business.name;
         listItem.dataset.businessId = business._id;
-        
+
         // Создаем контейнер для продуктов
         const productsContainer = document.createElement('div');
         productsContainer.className = 'products-tree';
         productsContainer.style.display = 'none';
-        
+
         // Добавляем продукты в дерево
         if (business.products && business.products.length > 0) {
             const productsList = document.createElement('ul');
@@ -100,30 +100,38 @@ function loadCompanyData() {
         } else {
             productsContainer.innerHTML = '<p>Нет продуктов</p>';
         }
-        
+
         // Добавляем обработчик клика для раскрытия дерева продуктов
         listItem.addEventListener('click', () => {
+            // Скрываем все другие открытые деревья продуктов
+            const allProductContainers = document.querySelectorAll('.products-tree');
+            allProductContainers.forEach(container => {
+                if (container !== productsContainer) {
+                    container.style.display = 'none';
+                }
+            });
+
             // Проверяем, открыто ли уже дерево продуктов для этого бизнеса
             const isTreeVisible = productsContainer.style.display === 'block';
-            
+
             // Если дерево было скрыто, показываем его, иначе скрываем
             if (!isTreeVisible) {
                 productsContainer.style.display = 'block';
                 // Показываем информацию о бизнесе
                 showBusinessInfo(business);
-                
+
                 // Изменяем панель сцены, показывая продукты бизнеса
                 const sceneContainer = document.getElementById('scene-container');
-                
+
                 // Очищаем контейнер сцены
                 sceneContainer.innerHTML = '';
-                
+
                 // Создаем блоки для каждого продукта в сцене
                 if (business.products && business.products.length > 0) {
                     business.products.forEach(product => {
                         const productBox = document.createElement('div');
                         productBox.className = 'scene-box';
-                        productBox.innerHTML = `
+                        productBox.innerHTML = ` 
                             <div class="product-name">${product.name}</div>
                             <div class="product-price">${product.price} руб.</div>
                             <div class="product-description">${product.description || 'Нет описания'}</div>
@@ -138,14 +146,15 @@ function loadCompanyData() {
                 }
             } else {
                 productsContainer.style.display = 'none';
+                showMainScene();
             }
         });
-        
+
         // Добавляем элементы в список
         listContainer.appendChild(listItem);
         listContainer.appendChild(productsContainer);
     });
-    
+
     // Добавляем блок-кнопку для создания нового бизнеса
     const addBusinessBox = document.createElement('div');
     addBusinessBox.className = 'scene-box add-business';
@@ -155,7 +164,7 @@ function loadCompanyData() {
         showAddBusinessScene();
     });
     sceneContainer.appendChild(addBusinessBox);
-    
+
     // Обновляем навигационную полоску
     updateNavigationBar('Главная');
 }
