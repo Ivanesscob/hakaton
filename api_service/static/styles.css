@@ -299,11 +299,11 @@ nav a::after {
     background: #d90dc0;
     color: white;
     font-family: "Comic Sans MS", cursive, sans-serif;
-    padding: 0.5rem 1rem;
+    padding: 1rem 5rem;
     font-size: 0.9rem;
     border-bottom-left-radius: 15px;
     font-weight: bold;
-    transform: rotate(45deg) translate(30px, -10px);
+    transform: rotate(45deg) translate(120px, 60px);
     transform-origin: top right;
 }
 
