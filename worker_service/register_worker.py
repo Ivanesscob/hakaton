@@ -126,31 +126,44 @@ def process_register_message(ch, method, properties, body):
 
 
 def main():
-    # Устанавливаем соединение с RabbitMQ
-    credentials = pika.PlainCredentials('guest', 'guest')
-    parameters = pika.ConnectionParameters(
-        host=RABBITMQ_HOST,
-        credentials=credentials
-    )
+    try:
+        # Устанавливаем соединение с RabbitMQ
+        credentials = pika.PlainCredentials('guest', 'guest')
+        parameters = pika.ConnectionParameters(
+            host=RABBITMQ_HOST,
+            credentials=credentials
+        )
 
-    connection = pika.BlockingConnection(parameters)
-    channel = connection.channel()
+        connection = pika.BlockingConnection(parameters)
+        channel = connection.channel()
 
-    # Объявляем очереди
-    channel.queue_declare(queue="register_queue", durable=True)
-    channel.queue_declare(queue="register_response_queue", durable=True)
+        # Объявляем очереди
+        channel.queue_declare(queue="register_queue", durable=True)
+        channel.queue_declare(queue="register_response_queue", durable=True)
 
-    # Устанавливаем prefetch count
-    channel.basic_qos(prefetch_count=1)
+        # Устанавливаем prefetch count
+        channel.basic_qos(prefetch_count=1)
 
-    # Начинаем прослушивать очередь
-    channel.basic_consume(
-        queue="register_queue",
-        on_message_callback=process_register_message
-    )
+        # Начинаем прослушивать очередь
+        channel.basic_consume(
+            queue="register_queue",
+            on_message_callback=process_register_message
+        )
 
-    print("Register worker started. Waiting for messages...")
-    channel.start_consuming()
+        print("Register worker started. Waiting for messages...")
+        channel.start_consuming()
+    except KeyboardInterrupt:
+        print("\nRegister worker stopped by user")
+        try:
+            connection.close()
+        except:
+            pass
+    except Exception as e:
+        print(f"Error in main: {str(e)}")
+        try:
+            connection.close()
+        except:
+            pass
 
 
 if __name__ == "__main__":
