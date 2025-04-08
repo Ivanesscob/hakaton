@@ -145,4 +145,63 @@ function showMainScene() {
     
     // Загружаем данные компании
     loadCompanyData();
+}
+
+// Функция для показа сцены с продуктами бизнеса
+function showBusinessProductsScene(business) {
+    // Очищаем текущую сцену, сохраняя навигационную панель
+    const infoPanel = document.getElementById('info-panel');
+    const topPanel = document.getElementById('top-panel');
+    
+    // Сохраняем навигационную панель, если она существует
+    if (topPanel) {
+        // Временно удаляем навигационную панель из DOM
+        topPanel.parentNode.removeChild(topPanel);
+    }
+    
+    // Очищаем информационную панель
+    infoPanel.innerHTML = '';
+    
+    // Восстанавливаем навигационную панель
+    if (topPanel) {
+        infoPanel.appendChild(topPanel);
+    }
+    
+    // Обновляем навигационную полоску
+    updateNavigationBar(business.name);
+    
+    // Создаем контейнер для продуктов в информационной панели
+    const productsContainer = document.createElement('div');
+    productsContainer.className = 'products-container';
+    
+    // Создаем список продуктов
+    const productsList = document.createElement('ul');
+    productsList.className = 'products-list';
+    
+    // Проверяем, есть ли продукты
+    if (business.products && business.products.length > 0) {
+        // Добавляем каждый продукт в список
+        business.products.forEach(product => {
+            const productItem = document.createElement('li');
+            productItem.className = 'product-item';
+            productItem.innerHTML = `
+                <div class="product-name">${product.name}</div>
+                <div class="product-price">${product.price} руб.</div>
+                <div class="product-description">${product.description || 'Нет описания'}</div>
+            `;
+            productsList.appendChild(productItem);
+        });
+    } else {
+        // Если продуктов нет, добавляем сообщение
+        const noProductsMessage = document.createElement('p');
+        noProductsMessage.className = 'no-products-message';
+        noProductsMessage.textContent = 'Нет продуктов';
+        productsList.appendChild(noProductsMessage);
+    }
+    
+    // Добавляем список продуктов в контейнер
+    productsContainer.appendChild(productsList);
+    
+    // Добавляем контейнер с продуктами в информационную панель
+    infoPanel.appendChild(productsContainer);
 } 
