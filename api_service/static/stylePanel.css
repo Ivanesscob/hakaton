@@ -1,449 +1,726 @@
+/* Общие стили для страницы */
 body {
-  background-color: #102d31; /* Устанавливаем чёрный фон */
+  background-color: #102d31; /* Тёмный фон */
+  margin: 0;
+  overflow: hidden; /* Убираем лишние скроллбары */
+  position: relative;
 }
+
+/* Фоновые эффекты для всей страницы */
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(138, 189, 188, 0.1) 0%, transparent 70%);
+  opacity: 0.3;
+  animation: pulse 10s infinite ease-in-out;
+  z-index: -1;
+}
+
+body::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><circle cx="10%" cy="20%" r="2" fill="#8abdbc" opacity="0.5"><animate attributeName="cy" values="20%;80%;20%" dur="15s" repeatCount="indefinite"/></circle><circle cx="30%" cy="50%" r="3" fill="#d90dc0" opacity="0.4"><animate attributeName="cy" values="50%;90%;50%" dur="20s" repeatCount="indefinite"/></circle><circle cx="70%" cy="30%" r="2" fill="#0d9cd9" opacity="0.5"><animate attributeName="cy" values="30%;70%;30%" dur="18s" repeatCount="indefinite"/></circle></svg>');
+  z-index: -1;
+}
+
 /* Основные стили для контейнера */
 .container {
   display: grid;
-  grid-template-columns: 3fr 1fr; /* Два блока в первой строке, третий в отдельной строке */
-    grid-template-rows: 3fr 1fr;
-  height: 100vh; /* Высота контейнера на весь экран */
+  grid-template-columns: 3fr 1fr; /* Два блока в первой строке */
+  grid-template-rows: 3fr 1fr; /* Две строки */
+  height: 100vh;
   width: 100%;
-    gap: 20px;
+  gap: 20px;
+  padding: 20px;
+  box-sizing: border-box;
+  background: linear-gradient(135deg, #102d31 0%, #1a3c42 100%); /* Градиентный фон */
 }
 
-
-/* Стили для второго блока */
-.list {
-  grid-row: 1; /* Второй блок в первой строке */
-  grid-column: 2; /* Устанавливаем на вторую колонку */
-overflow: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 15px; /* расстояние между элементами */
-
-    background-color: #254e58;
-            padding: 25px;
-            border-radius: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    font-family: "Comic Sans MS", cursive, sans-serif;
-    color:white;
-    font-size: 20px;
-}
-
-.list-box
-{
-  width: 100%; /* элемент растягивается на всю ширину ячейки */
-  position: relative;
-  box-sizing: border-box; /* чтобы padding не увеличивал размер */
-
-  background-color: transparent;
-  padding: 5px 0;
-  font-family: "Comic Sans MS", cursive, sans-serif;
-  color: white;
-  font-size: 18px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-decoration: none;
-}
-.list-box:hover {
-      text-decoration: underline;
-    }
-
-/* Стили для дерева продуктов */
-.products-tree {
-    margin-left: 20px;
-    margin-top: 5px;
-    margin-bottom: 10px;
-    padding-left: 15px;
-    border-left: 2px solid rgba(255, 255, 255, 0.3);
-    transition: all 0.3s ease;
-}
-
-.products-tree ul {
-    list-style-type: none;
-    padding-left: 0;
-    margin: 0;
-}
-
-.products-tree li {
-    padding: 5px 0;
-    font-size: 16px;
-    color: rgba(255, 255, 255, 0.8);
-    transition: all 0.3s ease;
-}
-
-.products-tree li:hover {
-    color: white;
-    transform: translateX(5px);
-}
-
-/* Стили для третьего блока */
-.info-panel {
-  grid-row: 2; /* Третий блок в отдельной строке */
-  grid-column: 1 / -1; /* Занимает всю ширину */
-  overflow: auto;
-  background-color: #254e58;
-  padding: 0;
-  border-radius: 20px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-  font-family: "Comic Sans MS", cursive, sans-serif;
-  color:white;
-  font-size: 20px;
-}
-
+/* Стили для первого блока (сцена) */
 .scene {
-  grid-row: 1; /* Первый блок в первой строке */
-  grid-column: 1; /* Устанавливаем на первую колонку */
-overflow: auto;
+  grid-row: 1;
+  grid-column: 1;
+  overflow: auto;
   display: grid;
-  grid-template-columns: repeat(4, 24%); /* 4 столбца */
-  gap: 10px; /* расстояние между элементами */
-
-  background-color: #254e58;
+  grid-template-columns: repeat(4, 24%);
+  gap: 15px;
+  background: linear-gradient(145deg, #254e58 0%, #1a3c42 100%);
   padding: 25px;
   border-radius: 20px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5), inset 0 2px 5px rgba(255, 255, 255, 0.1);
   font-family: "Comic Sans MS", cursive, sans-serif;
   color: white;
   font-size: 20px;
-
-  /* Устанавливаем ограничение высоты для .scene */
   position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.8s ease forwards 0.2s;
+}
+
+.scene:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), inset 0 2px 5px rgba(255, 255, 255, 0.15);
 }
 
 .scene-box {
-  width: 100%; /* элемент растягивается на всю ширину ячейки */
-  aspect-ratio: 1; /* высота будет равна ширине */
+  width: 100%;
+  aspect-ratio: 1;
   position: relative;
-  box-sizing: border-box; /* чтобы padding не увеличивал размер */
-
-  background-color: #102d31;
+  box-sizing: border-box;
+  background: linear-gradient(145deg, #102d31 0%, #1a3c42 100%);
   padding: 25px;
   border-radius: 20px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4), inset 0 2px 5px rgba(255, 255, 255, 0.1);
   font-family: "Comic Sans MS", cursive, sans-serif;
   color: white;
   font-size: 20px;
+  transition: all 0.4s ease;
+  overflow: hidden;
+  position: relative;
 }
-.scene-box:hover{
-  transform: scale(1.1);
+
+.scene-box::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.scene-box:hover::before {
+  opacity: 1; /* Эффект свечения при наведении */
+}
+
+.scene-box:hover {
+  transform: scale(1.1) rotate(2deg); /* Увеличение и лёгкий поворот */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+  background: linear-gradient(145deg, #1a3c42 0%, #102d31 100%);
 }
 
 /* Стили для продуктов в сцене */
 .scene-box .product-name {
-    font-size: 22px;
-    font-weight: bold;
-    margin-bottom: 8px;
-    color: white;
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: white;
+  position: relative;
+}
+
+.scene-box .product-name::after {
+  content: "✨";
+  position: absolute;
+  right: -30px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  opacity: 0;
+  transition: all 0.4s ease;
+}
+
+.scene-box:hover .product-name::after {
+  opacity: 1;
+  right: -20px; /* Декоративный элемент при наведении */
 }
 
 .scene-box .product-price {
-    font-size: 18px;
-    color: #8abdbc;
-    margin-bottom: 8px;
+  font-size: 18px;
+  color: #8abdbc;
+  margin-bottom: 8px;
+  transition: all 0.4s ease;
+}
+
+.scene-box:hover .product-price {
+  color: #d90dc0; /* Изменение цвета при наведении */
 }
 
 .scene-box .product-description {
-    font-size: 16px;
-    color: #e0e0e0;
-    line-height: 1.4;
-    max-height: 60px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
+  font-size: 16px;
+  color: #e0e0e0;
+  line-height: 1.4;
+  max-height: 60px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  transition: all 0.4s ease;
+}
+
+.scene-box:hover .product-description {
+  color: #fff; /* Улучшение читаемости при наведении */
+}
+
+/* Стили для второго блока (список) */
+.list {
+  grid-row: 1;
+  grid-column: 2;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background: linear-gradient(145deg, #254e58 0%, #1a3c42 100%);
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5), inset 0 2px 5px rgba(255, 255, 255, 0.1);
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  color: white;
+  font-size: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.8s ease forwards 0.4s;
+}
+
+.list:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), inset 0 2px 5px rgba(255, 255, 255, 0.15);
+}
+
+.list-box {
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+  background: linear-gradient(90deg, #8abdbc20 0%, #254e58 100%);
+  padding: 10px 15px;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: all 0.4s ease;
+  text-decoration: none;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+.list-box:hover {
+  transform: translateX(10px) scale(1.02);
+  background: linear-gradient(90deg, #8abdbc 0%, #254e58 100%);
+  text-decoration: none;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  color: #fff;
+}
+
+/* Стили для дерева продуктов */
+.products-tree {
+  margin-left: 20px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  padding-left: 15px;
+  border-left: 2px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.products-tree ul {
+  list-style-type: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.products-tree li {
+  padding: 5px 0;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.8);
+  transition: all 0.4s ease;
+  position: relative;
+}
+
+.products-tree li::before {
+  content: "•";
+  position: absolute;
+  left: -15px;
+  color: #8abdbc;
+  font-size: 20px;
+  transition: all 0.4s ease;
+}
+
+.products-tree li:hover {
+  color: white;
+  transform: translateX(10px);
+}
+
+.products-tree li:hover::before {
+  transform: scale(1.5);
+  color: #d90dc0;
+}
+
+/* Стили для третьего блока (инфо-панель) */
+.info-panel {
+  grid-row: 2;
+  grid-column: 1 / -1;
+  overflow: auto;
+  background: linear-gradient(145deg, #254e58 0%, #1a3c42 100%);
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5), inset 0 2px 5px rgba(255, 255, 255, 0.1);
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  color: white;
+  font-size: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.8s ease forwards 0.6s;
+}
+
+.info-panel:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), inset 0 2px 5px rgba(255, 255, 255, 0.15);
 }
 
 /* Стиль для скроллбара */
-    ::-webkit-scrollbar {
-      width: 12px; /* Ширина вертикального скроллбара */
-      height: 12px; /* Высота горизонтального скроллбара */
-    }
-
-    /* Стиль для "ползунка" скроллбара */
-    ::-webkit-scrollbar-thumb {
-      background-color: #8abdbc; /* Цвет ползунка */
-      border-radius: 10px; /* Скругление углов */
-    }
-
-    /* Стиль для полосы скроллбара (фона) */
-    ::-webkit-scrollbar-track {
-      background-color: #f1f1f1; /* Цвет фона полосы */
-      border-radius: 10px; /* Скругление углов */
-    }
-
-.panel-header {
-    display: flex;
-    justify-content: flex-end;
-    padding: 1rem;
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
 }
 
-.add-button {
-    display: inline-block;
-    background: linear-gradient(90deg, #d90dc0 0%, #0d9cd9 100%);
-    color: white;
-    font-size: 1.5rem;
-    font-weight: bold;
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
-    text-align: center;
-    border-radius: 50%;
-    text-decoration: none;
-    transition: all 0.3s ease;
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, #8abdbc 0%, #0d9cd9 100%);
+  border-radius: 10px;
+  transition: all 0.3s ease;
 }
 
-.add-button:hover {
-    transform: scale(1.1);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(90deg, #d90dc0 0%, #0d9cd9 100%);
+}
+
+::-webkit-scrollbar-track {
+  background-color: #1a3c42;
+  border-radius: 10px;
 }
 
 /* Стили для боковой панели и стрелочки */
 .sidebar-toggle {
-    position: fixed;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: rgba(51, 51, 51, 0.7);
-    color: white;
-    width: 30px;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    border-radius: 0 5px 5px 0;
-    z-index: 1000;
-    transition: all 0.3s ease;
+  position: fixed;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: linear-gradient(90deg, #254e58 0%, #1a3c42 100%);
+  color: white;
+  width: 30px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 0 5px 5px 0;
+  z-index: 1000;
+  transition: all 0.4s ease;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
 }
 
 .sidebar-toggle:hover {
-    background-color: rgba(85, 85, 85, 0.8);
+  background: linear-gradient(90deg, #8abdbc 0%, #1a3c42 100%);
+  transform: translateY(-50%) scale(1.1);
 }
 
 .sidebar {
-    position: fixed;
-    left: -300px;
-    top: 0;
-    width: 250px;
-    height: 100%;
-    background-color: #222;
-    color: white;
-    z-index: 999;
-    transition: all 0.3s ease;
-    padding: 20px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+  position: fixed;
+  left: -300px;
+  top: 0;
+  width: 250px;
+  height: 100%;
+  background: linear-gradient(145deg, #222 0%, #1a3c42 100%);
+  color: white;
+  z-index: 999;
+  transition: all 0.4s ease;
+  padding: 20px;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .sidebar.open {
-    left: 0;
+  left: 0;
 }
 
 .sidebar-toggle.open {
-    left: 250px;
+  left: 250px;
+}
+
+.sidebar h3 {
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-size: 24px;
+  margin-bottom: 20px;
+  position: relative;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s ease;
+}
+
+.sidebar.open h3 {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.sidebar h3::before {
+  content: "✨";
+  position: absolute;
+  left: -30px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  opacity: 0;
+  transition: all 0.4s ease;
+}
+
+.sidebar.open h3::before {
+  opacity: 1;
+  left: -20px; /* Декоративный элемент */
 }
 
 .sidebar-text {
-    margin: 20px 0;
-    line-height: 1.5;
-    font-family: "Comic Sans MS", cursive, sans-serif;
-    font-size: 16px;
+  margin: 20px 0;
+  line-height: 1.5;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-size: 16px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s ease 0.2s;
+}
+
+.sidebar.open .sidebar-text {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .sidebar-text p {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.sidebar-text p::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #8abdbc;
+  transition: width 0.4s ease;
+}
+
+.sidebar-text p:hover::after {
+  width: 100%;
 }
 
 .logout-btn {
-    margin-top: 20px;
-    padding: 10px 15px;
-    background-color: #ff4444;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 100%;
-    text-align: center;
+  margin-top: 20px;
+  padding: 10px 15px;
+  background: linear-gradient(90deg, #ff4444 0%, #cc0000 100%);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  transition: all 0.4s ease;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s ease 0.4s;
+}
+
+.sidebar.open .logout-btn {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.logout-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: all 0.6s ease;
+}
+
+.logout-btn:hover::before {
+  left: 100%;
 }
 
 .logout-btn:hover {
-    background-color: #cc0000;
-}
-
-/* Стили для верхней панели */
-.top-panel {
-    width: 100%;
-    background-color: #1a3d42;
-    padding: 5px 0;
-    box-sizing: border-box;
-    margin: 0;
-    border-radius: 20px 20px 0 0;
-}
-
-/* Стили для навигационной полоски */
-.nav-bar {
-    display: flex;
-    align-items: center;
-    background-color: #102d31;
-    padding: 5px 10px;
-    width: fit-content;
-    margin: 0 auto;
-    border-radius: 5px;
-}
-
-.nav-back-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-right: 10px;
-}
-
-.nav-back-button:hover {
-    transform: scale(1.1);
-}
-
-.nav-back-icon {
-    font-size: 14px;
-    color: white;
-}
-
-.nav-title {
-    font-size: 12px;
-    color: white;
-    font-weight: bold;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  transform: scale(1.05);
+  background: linear-gradient(90deg, #cc0000 0%, #ff4444 100%);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
 }
 
 /* Стили для формы */
 .form-container {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
 }
 
 .business-form {
-    width: 100%;
-    max-width: 400px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    background-color: #102d31;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background: linear-gradient(145deg, #102d31 0%, #1a3c42 100%);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3), inset 0 2px 5px rgba(255, 255, 255, 0.1);
+  opacity: 0;
+  transform: scale(0.9);
+  animation: popIn 0.5s ease forwards;
 }
 
 .form-input {
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: #1a3d42;
-    color: white;
-    font-size: 16px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #1a3d42;
+  color: white;
+  font-size: 16px;
+  transition: all 0.3s ease;
 }
 
 .form-input::placeholder {
-    color: #a0a0a0;
+  color: #a0a0a0;
+}
+
+.form-input:focus {
+  background-color: #254e58;
+  box-shadow: 0 0 0 3px rgba(138, 189, 188, 0.2);
+  outline: none;
 }
 
 .form-submit {
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: #254e58;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background: linear-gradient(90deg, #d90dc0 0%, #0d9cd9 100%);
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.form-submit::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: all 0.6s ease;
+}
+
+.form-submit:hover::before {
+  left: 100%;
 }
 
 .form-submit:hover {
-    background-color: #3a6b77;
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
 }
 
 /* Стили для информации о бизнесе */
 .business-info-container {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
 .business-title {
-    font-size: 24px;
-    font-weight: bold;
-    color: white;
-    margin: 0;
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  margin: 0;
+  position: relative;
+}
+
+.business-title::before {
+  content: "🏢";
+  position: absolute;
+  left: -30px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  opacity: 0;
+  transition: all 0.4s ease;
+}
+
+.business-title:hover::before {
+  opacity: 1;
+  left: -20px;
 }
 
 .business-description {
-    font-size: 16px;
-    color: #e0e0e0;
-    margin: 0;
+  font-size: 16px;
+  color: #e0e0e0;
+  margin: 0;
+  transition: all 0.4s ease;
 }
 
-.products-container {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.products-title {
-    font-size: 18px;
-    font-weight: bold;
-    color: white;
-    margin: 0 0 10px 0;
-}
-
-.products-list {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+.business-description:hover {
+  color: #fff;
 }
 
 /* Стили для продуктов в информационной панели */
+.products-container {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.products-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  margin: 0 0 10px 0;
+  position: relative;
+}
+
+.products-title::after {
+  content: "📦";
+  position: absolute;
+  right: -30px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  opacity: 0;
+  transition: all 0.4s ease;
+}
+
+.products-title:hover::after {
+  opacity: 1;
+  right: -20px;
+}
+
+.products-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
 .product-item {
-    margin-bottom: 20px;
-    padding: 15px;
-    background-color: rgba(255, 255, 255, 0.05);
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  padding: 15px;
+  background: linear-gradient(145deg, #102d31 0%, #1a3c42 100%);
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3), inset 0 2px 5px rgba(255, 255, 255, 0.1);
+  transition: all 0.4s ease;
+}
+
+.product-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
 }
 
 .product-item .product-name {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 8px;
-    color: white;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: white;
 }
 
 .product-item .product-price {
-    font-size: 16px;
-    color: #8abdbc;
-    margin-bottom: 8px;
+  font-size: 16px;
+  color: #8abdbc;
+  margin-bottom: 8px;
+  transition: all 0.4s ease;
+}
+
+.product-item:hover .product-price {
+  color: #d90dc0;
 }
 
 .product-item .product-description {
-    font-size: 14px;
-    color: #e0e0e0;
-    line-height: 1.4;
+  font-size: 14px;
+  color: #e0e0e0;
+  line-height: 1.4;
+  transition: all 0.4s ease;
+}
+
+.product-item:hover .product-description {
+  color: #fff;
 }
 
 .no-products-message {
-    color: #a0a0a0;
-    font-style: italic;
-    margin: 0;
+  color: #a0a0a0;
+  font-style: italic;
+  margin: 0;
+  position: relative;
 }
 
+.no-products-message::before {
+  content: "📭";
+  position: absolute;
+  left: -30px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  opacity: 0;
+  transition: all 0.4s ease;
+}
+
+.no-products-message:hover::before {
+  opacity: 1;
+  left: -20px;
+}
+
+/* Анимации */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes popIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+}
