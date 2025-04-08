@@ -49,7 +49,7 @@
 <script src="/static/js/ui.js"></script>
 <script src="/static/js/scenes.js"></script>
 <script src="/static/js/main.js"></script>
-  <script>
+   <script>
         // Переменные для отслеживания свайпа
         let startX, endX;
 
@@ -58,7 +58,7 @@
         const scene = document.querySelector('.scene');
 
         // Пороговое значение для свайпа
-        const swipeThreshold = 100;
+        const swipeThreshold = 150;
 
         // Слушаем события касания
         document.addEventListener('touchstart', function(e) {
@@ -72,15 +72,16 @@
         });
 
         document.addEventListener('touchend', function() {
-            // Если свайп вправо (больше порога)
-            if (endX - startX > swipeThreshold) {
-                list.style.display = 'none';  // Прячем список
-                scene.style.display = 'block'; // Показываем сцену
-            }
             // Если свайп влево (меньше порога)
-            else if (startX - endX > swipeThreshold) {
-                list.style.display = 'block'; // Показываем список
-                scene.style.display = 'none';  // Прячем сцену
+            if (startX - endX > swipeThreshold) {
+                // Переключаем видимость элементов
+                if (list.style.display !== 'none') {
+                    list.style.display = 'none';  // Прячем список
+                    scene.style.display = 'block'; // Показываем сцену
+                } else {
+                    list.style.display = 'block'; // Показываем список
+                    scene.style.display = 'none';  // Прячем сцену
+                }
             }
         });
     </script>
