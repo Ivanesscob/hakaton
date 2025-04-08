@@ -182,11 +182,12 @@ nav a::after {
     font-family: "Comic Sans MS", cursive, sans-serif;
     margin-bottom: 1rem;
     position: relative;
+    text-wrap: nowrap;
 }
 
 .hero-title::before {
     content: "🚀";
-    position: absolute;
+    position: relative;
     left: -40px;
     top: 50%;
     transform: translateY(-50%);
@@ -197,7 +198,7 @@ nav a::after {
 
 .hero-title::after {
     content: "🚀";
-    position: absolute;
+    position: relative;
     right: -40px;
     top: 50%;
     transform: translateY(-50%);
