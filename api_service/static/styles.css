@@ -494,3 +494,30 @@ nav a::after {
     color: white;
     font-family: "Comic Sans MS", cursive, sans-serif;
 }
+.toggle-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.toggle-button {
+    padding: 8px 16px;
+    background: linear-gradient(90deg, #0d9cd9 0%, #d90dc0 100%);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s;
+}
+
+.toggle-button:hover {
+    background: linear-gradient(90deg, #0b87b9 0%, #b90da3 100%);
+}
+
+.placeholder-text {
+    text-align: center;
+    color: #777;
+    font-size: 16px;
+    margin: 20px 0;
+}

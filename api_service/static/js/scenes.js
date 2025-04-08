@@ -110,7 +110,6 @@ function updateNavigationBar(title) {
 }
 
 // Функция для обновления сцены
-// Функция для обновления сцены
 function updateScene() {
     const sceneContainer = document.getElementById('scene-container');
     sceneContainer.innerHTML = '';
@@ -120,6 +119,11 @@ function updateScene() {
             currentBusiness.products.forEach(product => {
                 const productBox = document.createElement('div');
                 productBox.className = 'scene-box';
+                productBox.style.display = 'flex';
+                productBox.style.flexDirection = 'column';
+                productBox.style.alignItems = 'center';
+                productBox.style.justifyContent = 'center';
+                productBox.style.padding = '10px';
 
                 if (product.image) {
                     const img = document.createElement('img');
@@ -157,48 +161,34 @@ function updateScene() {
         const companyData = JSON.parse(localStorage.getItem('companyData'));
         const businesses = companyData?.businesses || [];
 
-        // Создаем контейнер для переключения
-        const toggleContainer = document.createElement('div');
-        toggleContainer.style.display = 'grid';
-        toggleContainer.style.marginBottom = '10px';
-        toggleContainer.style.gridTemplateColumns = '3';
-
-        const toggleButton = document.createElement('button');
-        toggleButton.className = 'form-submit';
-        toggleButton.textContent = isMapView ? 'Показать блоки' : 'Показать карту';
-        toggleButton.addEventListener('click', () => {
-            isMapView = !isMapView;
-            updateScene();
-        });
-        toggleContainer.appendChild(toggleButton);
-        sceneContainer.appendChild(toggleContainer);
-
         // Контейнер для блоков бизнесов
         const businessesContainer = document.createElement('div');
         businessesContainer.id = 'businesses-container';
-        businessesContainer.style.display = isMapView ? 'none' : 'grid';
+        businessesContainer.style.display = isMapView ? 'none' : 'flex';
+        businessesContainer.style.flexWrap = 'wrap';
         businessesContainer.style.gap = '10px';
-        businessesContainer.style.gridTemplateColumns = '3';
 
         // Контейнер для карты
         const mapContainer = document.createElement('div');
         mapContainer.id = 'map';
-        mapContainer.style.height = '90%';
-        mapContainer.style.width = '300%';
+        mapContainer.style.height = '1000%';
+        mapContainer.style.width = '1000%';
         mapContainer.style.display = isMapView ? 'block' : 'none';
+        mapContainer.style.background = 'black';
+        mapContainer.style.zIndex = '10';
 
-        sceneContainer.appendChild(businessesContainer);
+
         sceneContainer.appendChild(mapContainer);
 
         // Заполняем блоки бизнесов
         businesses.forEach((business) => {
             const sceneBox = document.createElement('div');
             sceneBox.className = 'scene-box';
-            sceneBox.style.display = 'grid';
+            sceneBox.style.display = 'flex';
+            sceneBox.style.flexDirection = 'column';
             sceneBox.style.alignItems = 'center';
             sceneBox.style.justifyContent = 'center';
             sceneBox.style.padding = '10px';
-            sceneBox.style.gridColumn = 'auto';
 
             if (business.image) {
                 const img = document.createElement('img');
@@ -217,14 +207,13 @@ function updateScene() {
             sceneBox.appendChild(nameDiv);
 
             sceneBox.dataset.businessId = business._id;
-
             sceneBox.addEventListener('click', () => {
                 currentBusiness = business;
                 updateScene();
                 updateList();
                 showBusinessProductsScene(business);
             });
-            businessesContainer.appendChild(sceneBox);
+            scene.appendChild(sceneBox);
         });
 
         const addBusinessBox = document.createElement('div');
@@ -233,31 +222,27 @@ function updateScene() {
         addBusinessBox.addEventListener('click', () => {
             showAddBusinessScene();
         });
-        businessesContainer.appendChild(addBusinessBox);
+        scene.appendChild(addBusinessBox);
 
         // Инициализируем карту, если выбран режим карты
         if (isMapView) {
             try {
-                // Проверяем, доступен ли Leaflet
                 if (typeof L === 'undefined') {
                     console.error('Leaflet.js не подключен. Убедитесь, что вы добавили <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script> в ваш HTML.');
                     return;
                 }
 
-                // Инициализируем карту
                 const map = L.map('map', {
-                    center: [55.7558, 37.6173], // Центр карты (Москва, например)
+                    center: [55.7558, 37.6173],
                     zoom: 10,
                     zoomControl: true
                 });
 
-                // Добавляем тайловый слой OpenStreetMap
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
                     maxZoom: 19
                 }).addTo(map);
 
-                // Добавляем метки для бизнесов
                 const validMarkers = [];
                 businesses.forEach(business => {
                     if (business.latitude && business.longitude) {
@@ -273,15 +258,11 @@ function updateScene() {
                     }
                 });
 
-                // Если есть метки, подстраиваем карту под них
                 if (validMarkers.length > 0) {
                     const bounds = L.latLngBounds(validMarkers);
                     map.fitBounds(bounds, { padding: [50, 50] });
-                } else {
-                    console.warn('Нет бизнесов с координатами для отображения на карте.');
                 }
 
-                // Принудительно обновляем карту после инициализации
                 setTimeout(() => {
                     map.invalidateSize();
                 }, 100);
@@ -910,6 +891,29 @@ function showMainScene() {
     updateNavigationBar('Главная');
 
     currentBusiness = null;
+
+    // Добавляем текст "Выберите бизнес для просмотра информации"
+    const placeholderText = document.createElement('p');
+    placeholderText.className = 'placeholder-text';
+    placeholderText.textContent = 'Выберите бизнес для просмотра информации';
+    infoPanel.appendChild(placeholderText);
+
+    // Добавляем кнопку переключения
+    const toggleContainer = document.createElement('div');
+    toggleContainer.className = 'toggle-container';
+    toggleContainer.style.marginTop = '10px';
+
+    const toggleButton = document.createElement('button');
+    toggleButton.className = 'toggle-button';
+    toggleButton.textContent = isMapView ? 'Показать блоки' : 'Показать карту';
+    toggleButton.addEventListener('click', () => {
+        isMapView = !isMapView;
+        updateScene();
+        toggleButton.textContent = isMapView ? 'Показать блоки' : 'Показать карту';
+    });
+    toggleContainer.appendChild(toggleButton);
+    infoPanel.appendChild(toggleContainer);
+
     updateScene();
     updateList();
 }
