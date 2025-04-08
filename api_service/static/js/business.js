@@ -46,7 +46,35 @@ function loadCompanyData() {
         sceneBox.className = 'scene-box';
         sceneBox.textContent = business.name;
         sceneBox.dataset.businessId = business._id;
-        sceneBox.addEventListener('click', () => showBusinessInfo(business));
+        sceneBox.addEventListener('click', () => {
+            // Получаем контейнер сцены
+            const sceneContainer = document.getElementById('scene-container');
+            
+            // Очищаем контейнер сцены
+            sceneContainer.innerHTML = '';
+            
+            // Создаем блоки для каждого продукта в сцене
+            if (business.products && business.products.length > 0) {
+                business.products.forEach(product => {
+                    const productBox = document.createElement('div');
+                    productBox.className = 'scene-box';
+                    productBox.innerHTML = `
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-price">${product.price} руб.</div>
+                        <div class="product-description">${product.description || 'Нет описания'}</div>
+                    `;
+                    sceneContainer.appendChild(productBox);
+                });
+            } else {
+                const noProductsMessage = document.createElement('div');
+                noProductsMessage.className = 'scene-box';
+                noProductsMessage.textContent = 'Нет продуктов';
+                sceneContainer.appendChild(noProductsMessage);
+            }
+            
+            // Показываем информацию о бизнесе
+            showBusinessInfo(business);
+        });
         sceneContainer.appendChild(sceneBox);
         
         // Создаем элемент в списке
@@ -83,6 +111,31 @@ function loadCompanyData() {
                 productsContainer.style.display = 'block';
                 // Показываем информацию о бизнесе
                 showBusinessInfo(business);
+                
+                // Изменяем панель сцены, показывая продукты бизнеса
+                const sceneContainer = document.getElementById('scene-container');
+                
+                // Очищаем контейнер сцены
+                sceneContainer.innerHTML = '';
+                
+                // Создаем блоки для каждого продукта в сцене
+                if (business.products && business.products.length > 0) {
+                    business.products.forEach(product => {
+                        const productBox = document.createElement('div');
+                        productBox.className = 'scene-box';
+                        productBox.innerHTML = `
+                            <div class="product-name">${product.name}</div>
+                            <div class="product-price">${product.price} руб.</div>
+                            <div class="product-description">${product.description || 'Нет описания'}</div>
+                        `;
+                        sceneContainer.appendChild(productBox);
+                    });
+                } else {
+                    const noProductsMessage = document.createElement('div');
+                    noProductsMessage.className = 'scene-box';
+                    noProductsMessage.textContent = 'Нет продуктов';
+                    sceneContainer.appendChild(noProductsMessage);
+                }
             } else {
                 productsContainer.style.display = 'none';
             }
@@ -130,28 +183,9 @@ function showBusinessInfo(business) {
     // Обновляем навигационную полоску
     updateNavigationBar(business.name);
     
-    // Создаем контейнер для информации о бизнесе
-    const businessInfoContainer = document.createElement('div');
-    businessInfoContainer.className = 'business-info-container';
-    
-    // Создаем заголовок с названием бизнеса
-    const businessTitle = document.createElement('h2');
-    businessTitle.className = 'business-title';
-    businessTitle.textContent = business.name;
-    
-    // Создаем описание бизнеса
-    const businessDescription = document.createElement('p');
-    businessDescription.className = 'business-description';
-    businessDescription.textContent = business.description || 'Описание отсутствует';
-    
     // Создаем контейнер для продуктов
     const productsContainer = document.createElement('div');
     productsContainer.className = 'products-container';
-    
-    // Создаем заголовок для продуктов
-    const productsTitle = document.createElement('h3');
-    productsTitle.className = 'products-title';
-    productsTitle.textContent = 'Продукты:';
     
     // Создаем список продуктов
     const productsList = document.createElement('ul');
@@ -163,7 +197,25 @@ function showBusinessInfo(business) {
         business.products.forEach(product => {
             const productItem = document.createElement('li');
             productItem.className = 'product-item';
-            productItem.textContent = `${product.name} - ${product.price} руб.`;
+            
+            // Создаем элементы для отображения информации о продукте
+            const productName = document.createElement('div');
+            productName.className = 'product-name';
+            productName.textContent = product.name;
+            
+            const productPrice = document.createElement('div');
+            productPrice.className = 'product-price';
+            productPrice.textContent = `${product.price} руб.`;
+            
+            const productDescription = document.createElement('div');
+            productDescription.className = 'product-description';
+            productDescription.textContent = product.description || 'Описание отсутствует';
+            
+            // Добавляем элементы в элемент продукта
+            productItem.appendChild(productName);
+            productItem.appendChild(productPrice);
+            productItem.appendChild(productDescription);
+            
             productsList.appendChild(productItem);
         });
     } else {
@@ -175,13 +227,8 @@ function showBusinessInfo(business) {
     }
     
     // Собираем все элементы
-    productsContainer.appendChild(productsTitle);
     productsContainer.appendChild(productsList);
     
-    businessInfoContainer.appendChild(businessTitle);
-    businessInfoContainer.appendChild(businessDescription);
-    businessInfoContainer.appendChild(productsContainer);
-    
-    // Добавляем информацию о бизнесе в информационную панель
-    infoPanel.appendChild(businessInfoContainer);
+    // Добавляем информацию о продуктах в информационную панель
+    infoPanel.appendChild(productsContainer);
 } 
