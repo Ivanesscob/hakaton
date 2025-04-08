@@ -4,41 +4,41 @@ function loadCompanyData() {
         window.location.href = '/auth/login';
         return;
     }
-    
+
     const companyData = JSON.parse(localStorage.getItem('companyData'));
-    
+
     if (!companyData || companyData.status !== 'success') {
         console.error('Данные компании не найдены или неверный формат');
         window.location.href = '/auth/login';
         return;
     }
-    
+
     const businesses = companyData.businesses || [];
     const sceneContainer = document.getElementById('scene-container');
     const listContainer = document.getElementById('list-container');
-    
+
     // Очищаем контейнеры
     sceneContainer.innerHTML = '';
     listContainer.innerHTML = '';
-    
+
     // Получаем информационную панель
     const infoPanel = document.getElementById('info-panel');
-    
+
     // Сохраняем навигационную панель, если она существует
     const topPanel = document.getElementById('top-panel');
     if (topPanel) {
         // Временно удаляем навигационную панель из DOM
         topPanel.parentNode.removeChild(topPanel);
     }
-    
+
     // Очищаем информационную панель
     infoPanel.innerHTML = '';
-    
+
     // Восстанавливаем навигационную панель
     if (topPanel) {
         infoPanel.appendChild(topPanel);
     }
-    
+
     // Создаем блоки для каждого бизнеса
     businesses.forEach((business, index) => {
         // Создаем блок в сцене
@@ -49,10 +49,10 @@ function loadCompanyData() {
         sceneBox.addEventListener('click', () => {
             // Получаем контейнер сцены
             const sceneContainer = document.getElementById('scene-container');
-            
+
             // Очищаем контейнер сцены
             sceneContainer.innerHTML = '';
-            
+
             // Создаем блоки для каждого продукта в сцене
             if (business.products && business.products.length > 0) {
                 business.products.forEach(product => {
@@ -146,6 +146,7 @@ function loadCompanyData() {
                 }
             } else {
                 productsContainer.style.display = 'none';
+                showMainScene();
             }
         });
 
@@ -167,7 +168,6 @@ function loadCompanyData() {
     // Обновляем навигационную полоску
     updateNavigationBar('Главная');
 }
-
 
 // Функция для отображения информации о бизнесе
 function showBusinessInfo(business) {
